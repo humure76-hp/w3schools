@@ -3,424 +3,3272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRU WEB | Developed by Inezaime Bruno</title>
+    <title>B3Schools - Complete Web Development Academy | Developed by Ineza Aime Bruno</title>
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 </head>
 <body data-theme="light">
-
-    <nav>
-        <div class="nav-brand">
-            <h2>BRU WEB</h2>
-            <p>Inezaime Bruno Academy</p>
-        </div>
-        <div class="nav-menu">
-            <div class="nav-group">Web Standard</div>
-            <button class="nav-link active" id="m-html" onclick="loadModule('html')">HTML Structure</button>
-            <button class="nav-link" id="m-css" onclick="loadModule('css')">CSS Styling</button>
-            <button class="nav-link" id="m-js" onclick="loadModule('js')">JavaScript ES6</button>
-
-            <div class="nav-group">Modern Backend</div>
-            <button class="nav-link" id="m-python" onclick="loadModule('python')">Python 3.11</button>
-            <button class="nav-link" id="m-sql" onclick="loadModule('sql')">SQL Database</button>
-            <button class="nav-link" id="m-php" onclick="loadModule('php')">PHP Server</button>
-
-            <div class="nav-group">Systems Engineering</div>
-            <button class="nav-link" id="m-cpp" onclick="loadModule('cpp')">C++ Master</button>
-            <button class="nav-link" id="m-java" onclick="loadModule('java')">Java Enterprise</button>
-            <button class="nav-link" id="m-rust" onclick="loadModule('rust')">Rust Safety</button>
-            <button class="nav-link" id="m-swift" onclick="loadModule('swift')">Swift iOS</button>
-        </div>
-    </nav>
-
-    <main>
-        <header>
-            <h1 id="mod-title" style="font-size: 18px;">HTML5 Academy</h1>
-            <div style="display: flex;">
-                <button class="btn-action" style="background:var(--text-main)" onclick="toggleTheme()">🌓 Theme</button>
-                <button class="btn-action" style="background:var(--success)" onclick="formatCode()">✨ Auto-Space</button>
-                <button class="btn-action" onclick="saveToFile()">💾 Save Code</button>
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <div class="brand">
+            <h1>B3Schools</h1>
+            <div>
+                <div class="brand-tagline">Complete Web Development Academy</div>
+                <div class="brand-tagline" style="opacity: 0.5;">Developed by Ineza Aime Bruno</div>
             </div>
-        </header>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="formatCode()">✨ Auto-Format</button>
+            <button class="btn btn-secondary" onclick="saveWorkspace()">💾 Save Project</button>
+            <button class="btn btn-theme" onclick="toggleTheme()">🌓 Theme</button>
+        </div>
+    </header>
 
-        <div class="workspace">
-            <div class="lesson-panel">
-                <div class="tab-nav">
-                    <div id="t-learn" class="tab-item active" onclick="switchTab('learn')">COURSE GUIDE</div>
-                    <div id="t-quiz" class="tab-item" onclick="switchTab('quiz')">QUIZ MODE</div>
+    <!-- PROGRESS BAR -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="workspace">
+        <!-- PANE 1: TEACHING MODULE -->
+        <div class="teaching-pane">
+            <div class="teaching-header">📚 Learning Modules</div>
+            <nav class="module-nav" id="module-nav">
+                <!-- Modules will be generated here -->
+            </nav>
+            <div class="content-tabs">
+                <button class="tab-btn active" onclick="switchContentTab('lesson')">📖 Lesson</button>
+                <button class="tab-btn" onclick="switchContentTab('quiz')">✅ Quiz</button>
+            </div>
+            <div class="content-area">
+                <div class="content-section active" id="lesson-content">
+                    <!-- Lesson content will be loaded here -->
                 </div>
-
-                <div id="p-learn" class="content-pane">
+                <div class="content-section" id="quiz-content">
+                    <div class="quiz-container" id="quiz-container">
+                        <!-- Quiz will be generated here -->
                     </div>
-
-                <div id="p-quiz" class="content-pane hide">
-                    <h2>Quiz Evaluation</h2>
-                    <div id="quiz-root"></div>
-                </div>
-            </div>
-
-            <div class="execution-zone">
-                <div class="editor-box">
-                    <div class="box-header">
-                        <span id="editor-info">FILE: INDEX.HTML</span>
-                        <button class="btn-action" onclick="runSystem()" style="padding: 5px 15px;">RUN SYSTEM &rsaquo;</button>
-                    </div>
-                    <textarea id="code-editor" spellcheck="false"></textarea>
-                </div>
-
-                <div class="output-box">
-                    <div class="box-header" style="background:#eee; color:#333">LIVE EXECUTION CONSOLE</div>
-                    <iframe id="preview"></iframe>
-                    <div id="console"></div>
                 </div>
             </div>
         </div>
 
-        <footer>
-            © 2026 BRU WEB | Crafted by <b>Inezaime Bruno</b> | Hosting at <a href="https://bru-ai.vercel.app" style="color:var(--accent); margin-left:5px;">bru-ai.vercel.app</a>
-        </footer>
-    </main>
+        <!-- SPLITTER 1 -->
+        <div class="splitter" id="splitter-1"></div>
+
+        <!-- PANE 2: EXECUTION ZONE -->
+        <div class="execution-pane">
+            <!-- CODE EDITOR -->
+            <div class="editor-container">
+                <div class="editor-header">
+                    <div class="editor-info" id="editor-info">📝 WORKSPACE: HTML</div>
+                    <div class="editor-actions">
+                        <button class="btn-run" onclick="executeCode()">▶ Run Code</button>
+                    </div>
+                </div>
+                <textarea id="code-editor" spellcheck="false" autocomplete="off"></textarea>
+            </div>
+
+            <!-- OUTPUT WINDOW -->
+            <div class="output-container">
+                <div class="output-header">🖥️ Live Output</div>
+                <iframe id="preview-frame"></iframe>
+                <div id="console-output"></div>
+            </div>
+        </div>
+
+        <!-- SPLITTER 2 -->
+        <div class="splitter" id="splitter-2"></div>
+
+        <!-- PANE 3: AI ASSISTANT -->
+        <div class="ai-pane">
+            <div class="ai-header">
+                🤖 AI Assistant
+            </div>
+            <div class="ai-frame-container">
+                <iframe id="ai-assistant-frame" src="https://bru-ai.vercel.app"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 B3Schools - Complete Web Development Academy | 
+        Developed by <strong>Ineza Aime Bruno</strong> | 
+        Visit: <a href="https://bru-ai.vercel.app" target="_blank">bru-ai.vercel.app</a>
+    </footer>
+
+    <!-- CERTIFICATE MODAL -->
+    <div class="modal-overlay" id="certificate-modal">
+        <div class="certificate">
+            <h2>🎓 Certificate of Completion</h2>
+            <p>This certifies that</p>
+            <h3 style="color: var(--accent-blue); margin: 20px 0;">Distinguished Student</h3>
+            <p>has successfully completed the B3Schools</p>
+            <p><strong>Complete Web Development Academy</strong></p>
+            <p>covering HTML, CSS, JavaScript, Python, SQL, PHP,</p>
+            <p>C++, Java, Rust, and Swift programming</p>
+            <div class="signature">
+                <p>Signed by:</p>
+                <h4 style="color: var(--accent-green);">Ineza Aime Bruno</h4>
+                <p>Founder & Lead Instructor, B3Schools</p>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeCertificate()">Close</button>
+        </div>
+    </div>
     <style>
+        /* ═══════════════════════════════════════════════════════════════
+           ROOT VARIABLES - THEME SYSTEM
+        ═══════════════════════════════════════════════════════════════ */
         :root {
-            --bg-body: #f8f9fa;
-            --bg-side: #1a1c2c;
-            --bg-card: #ffffff;
-            --text-main: #2d3436;
-            --text-muted: #636e72;
-            --accent: #0984e3;
-            --success: #00b894;
-            --danger: #d63031;
-            --border: #dfe6e9;
-            --shadow: rgba(0,0,0,0.05);
-            --editor-bg: #282c34;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f1f1f1;
+            --bg-sidebar: #282A35;
+            --bg-code: #282c34;
+            --bg-output: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --text-sidebar: #ffffff;
+            --accent-green: #04AA6D;
+            --accent-blue: #0984e3;
+            --accent-red: #ff4757;
+            --accent-yellow: #ffa502;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+            --splitter-color: #ddd;
+            --console-bg: #1e1e1e;
+            --console-text: #d4d4d4;
         }
 
         [data-theme="dark"] {
-            --bg-body: #0f0f17;
-            --bg-side: #08090f;
-            --bg-card: #1e1e2e;
-            --text-main: #f5f6fa;
-            --text-muted: #a4b0be;
-            --border: #2f3542;
-            --shadow: rgba(0,0,0,0.3);
+            --bg-primary: #1e1e1e;
+            --bg-secondary: #252526;
+            --bg-sidebar: #1a1d24;
+            --bg-code: #1e1e1e;
+            --bg-output: #252526;
+            --text-primary: #d4d4d4;
+            --text-secondary: #a0a0a0;
+            --text-sidebar: #cccccc;
+            --border-color: #3e3e42;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.5);
+            --splitter-color: #3e3e42;
+            --console-bg: #1e1e1e;
+            --console-text: #d4d4d4;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           BASE STYLES
+        ═══════════════════════════════════════════════════════════════ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow: hidden;
-            background: var(--bg-body);
-            color: var(--text-main);
-            transition: 0.3s;
-        }
-
-        /* --- SIDEBAR --- */
-        nav {
-            width: 280px;
-            background: var(--bg-side);
-            color: white;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .nav-brand {
-            padding: 40px 25px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        /* ═══════════════════════════════════════════════════════════════
+           HEADER - TOP BAR
+        ═══════════════════════════════════════════════════════════════ */
+        .top-header {
+            background: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            box-shadow: var(--shadow-md);
+            z-index: 100;
         }
 
-        .nav-brand h2 { margin: 0; color: var(--accent); letter-spacing: 2px; font-size: 24px; }
-        .nav-brand p { margin: 8px 0 0; font-size: 10px; opacity: 0.6; text-transform: uppercase; }
-
-        .nav-menu { flex: 1; overflow-y: auto; padding: 20px 0; }
-        .nav-group { padding: 20px 25px 5px; font-size: 11px; color: #576574; font-weight: 800; text-transform: uppercase; }
-        
-        .nav-link {
-            width: 100%; padding: 14px 25px; background: none; border: none;
-            color: #bdc3c7; text-align: left; cursor: pointer; transition: 0.2s;
-            font-size: 14px; border-left: 4px solid transparent;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .nav-link:hover { background: rgba(255,255,255,0.05); color: white; }
-        .nav-link.active { background: rgba(9, 132, 227, 0.1); color: white; border-left-color: var(--accent); }
-
-        /* --- MAIN --- */
-        main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-
-        header {
-            height: 70px; background: var(--bg-card); padding: 0 30px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); transition: background 0.3s;
+        .brand h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-green);
+            letter-spacing: 1px;
         }
 
-        .btn-action {
-            background: var(--accent); color: white; border: none; padding: 10px 18px;
-            border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; margin-left: 10px;
+        .brand-tagline {
+            font-size: 11px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- WORKSPACE --- */
-        .workspace { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
-
-        .lesson-panel {
-            width: 400px; background: var(--bg-card); border-radius: 12px;
-            display: flex; flex-direction: column; border: 1px solid var(--border);
-            box-shadow: 0 10px 30px var(--shadow); overflow: hidden;
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
 
-        .tab-nav { display: flex; background: rgba(0,0,0,0.02); border-bottom: 1px solid var(--border); }
-        .tab-item { flex: 1; padding: 15px; text-align: center; cursor: pointer; font-weight: 800; font-size: 12px; opacity: 0.5; }
-        .tab-item.active { opacity: 1; border-bottom: 3px solid var(--accent); background: var(--bg-card); }
-
-        .content-pane { flex: 1; overflow-y: auto; padding: 30px; line-height: 1.8; }
-        .content-pane h2 { color: var(--accent); margin-top: 0; font-size: 24px; }
-
-        /* --- THE BIG EXECUTION ZONE --- */
-        .execution-zone { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-
-        .editor-box {
-            flex: 1.5; background: var(--editor-bg); border-radius: 12px;
-            display: flex; flex-direction: column; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .box-header {
-            padding: 12px 20px; background: #21252b; display: flex; 
-            justify-content: space-between; align-items: center; color: #abb2bf; font-size: 11px;
+        .btn-primary {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #039b5f;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #0873c7;
+        }
+
+        .btn-theme {
+            background: transparent;
+            color: var(--text-sidebar);
+            border: 1px solid var(--text-sidebar);
+        }
+
+        .btn-theme:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PROGRESS BAR
+        ═══════════════════════════════════════════════════════════════ */
+        .progress-container {
+            background: var(--bg-secondary);
+            height: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN WORKSPACE - 3 PANE LAYOUT
+        ═══════════════════════════════════════════════════════════════ */
+        .workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* PANE 1: TEACHING MODULE */
+        .teaching-pane {
+            background: var(--bg-primary);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            min-width: 250px;
+            width: 350px;
+        }
+
+        .teaching-header {
+            background: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .module-nav {
+            background: var(--bg-secondary);
+            padding: 10px 0;
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .module-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-left: 4px solid transparent;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-btn:hover {
+            background: var(--bg-primary);
+            border-left-color: var(--accent-green);
+        }
+
+        .module-btn.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent-green);
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .module-icon {
+            font-size: 18px;
+            width: 25px;
+        }
+
+        .content-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+            background: var(--bg-primary);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            line-height: 1.7;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: var(--accent-green);
+            border-radius: 4px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-area h2 {
+            color: var(--accent-green);
+            font-size: 24px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 10px;
+        }
+
+        .content-area h3 {
+            color: var(--text-primary);
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content-area p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .content-area ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-area li {
+            margin-bottom: 8px;
+        }
+
+        .content-area code {
+            background: var(--bg-code);
+            color: #61afef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+        }
+
+        .bruno-insight {
+            background: linear-gradient(135deg, rgba(4, 170, 109, 0.1), rgba(9, 132, 227, 0.1));
+            border-left: 4px solid var(--accent-green);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .bruno-insight strong {
+            color: var(--accent-green);
+        }
+
+        /* QUIZ STYLES */
+        .quiz-container {
+            padding: 0;
+        }
+
+        .quiz-question {
+            background: var(--bg-secondary);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-question h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .quiz-option {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-blue);
+            background: rgba(9, 132, 227, 0.05);
+        }
+
+        .quiz-option.correct {
+            background: var(--accent-green);
+            color: white;
+            border-color: var(--accent-green);
+        }
+
+        .quiz-option.incorrect {
+            background: var(--accent-red);
+            color: white;
+            border-color: var(--accent-red);
+        }
+
+        /* PANE 2: EXECUTION ZONE */
+        .execution-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 400px;
+        }
+
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-code);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .editor-header {
+            background: #21252b;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #181a1f;
+        }
+
+        .editor-info {
+            color: #abb2bf;
+            font-size: 12px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-run {
+            background: var(--accent-green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-run:hover {
+            background: #039b5f;
         }
 
         #code-editor {
-            flex: 1; width: 100%; background: transparent; color: #61afef;
-            border: none; padding: 25px; font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 16px; outline: none; resize: none; line-height: 1.6;
+            flex: 1;
+            width: 100%;
+            background: var(--bg-code);
+            color: #abb2bf;
+            border: none;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            overflow-y: auto;
         }
 
-        .output-box {
-            flex: 1; background: white; border-radius: 12px;
-            border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden;
+        #code-editor::-webkit-scrollbar {
+            width: 10px;
         }
 
-        #preview { flex: 1; border: none; width: 100%; height: 100%; }
-        #console { 
-            flex: 1; background: #000; color: #00ff00; padding: 20px; 
-            font-family: 'Courier New', monospace; white-space: pre-wrap; overflow-y: auto; display: none;
+        #code-editor::-webkit-scrollbar-track {
+            background: #21252b;
         }
 
-        /* QUIZ UI */
-        .quiz-card { background: rgba(0,0,0,0.02); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
-        .quiz-btn { 
-            display: block; width: 100%; padding: 12px; margin-top: 8px; text-align: left;
-            background: var(--bg-card); border: 1px solid var(--border); cursor: pointer;
-            border-radius: 6px; color: var(--text-main); font-weight: 500;
+        #code-editor::-webkit-scrollbar-thumb {
+            background: #3e4451;
+            border-radius: 5px;
         }
-        .quiz-btn:hover { border-color: var(--accent); background: rgba(9, 132, 227, 0.05); }
 
+        .output-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-output);
+            overflow: hidden;
+        }
+
+        .output-header {
+            background: var(--bg-secondary);
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        #preview-frame {
+            flex: 1;
+            border: none;
+            background: white;
+            width: 100%;
+            height: 100%;
+        }
+
+        #console-output {
+            flex: 1;
+            background: var(--console-bg);
+            color: var(--console-text);
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        #console-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #console-output::-webkit-scrollbar-thumb {
+            background: #3e4451;
+        }
+
+        /* PANE 3: AI ASSISTANT */
+        .ai-pane {
+            background: var(--bg-primary);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+            min-width: 250px;
+            width: 350px;
+        }
+
+        .ai-header {
+            background: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-frame-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #ai-assistant-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* SPLITTER BARS */
+        .splitter {
+            width: 5px;
+            background: var(--splitter-color);
+            cursor: col-resize;
+            position: relative;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .splitter:hover {
+            background: var(--accent-green);
+        }
+
+        .splitter.active {
+            background: var(--accent-green);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════════════════════ */
         footer {
-            height: 45px; background: var(--bg-card); border-top: 1px solid var(--border);
-            display: flex; justify-content: center; align-items: center; font-size: 12px; color: var(--text-muted);
+            background: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
         }
 
-        .hide { display: none; }
+        footer a {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CERTIFICATE MODAL
+        ═══════════════════════════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .certificate {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 5px solid var(--accent-green);
+        }
+
+        .certificate h2 {
+            color: var(--accent-green);
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .certificate p {
+            color: #333;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .certificate .signature {
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--accent-blue);
+            font-size: 18px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            .ai-pane {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .teaching-pane {
+                width: 100%;
+                position: absolute;
+                height: 100%;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .teaching-pane.show {
+                transform: translateX(0);
+            }
+        }
     </style>
 
     <script>
-        let pyodide;
-        let activeMod = 'html';
-
-        // --- THE MASSIVE 800+ LINE DATABASE ---
-        const db = {
+        // ═══════════════════════════════════════════════════════════════
+        //                    ACADEMY DATABASE
+        // ═══════════════════════════════════════════════════════════════
+        const ACADEMY_DB = {
             html: {
-                title: "HTML5: Structural Engineering",
+                name: "HTML5",
+                icon: "🌐",
                 type: "html",
-                text: `
-                    <h2>HyperText Markup Language</h2>
-                    <p>HTML is the foundation of every single web page. It uses <b>tags</b> to tell the browser how to display content.</p>
-                    <h3>The Rule of Semantics</h3>
-                    <p>Instead of using <code>&lt;div&gt;</code> for everything, use tags that describe their purpose:</p>
+                lesson: `
+                    <h2>HTML5: The Foundation of the Web</h2>
+                    
+                    <h3>Introduction to HTML</h3>
+                    <p>HTML (HyperText Markup Language) is the standard markup language for creating web pages. It describes the structure of a web page using a series of elements, which tell the browser how to display the content. HTML5 is the latest version, introducing new semantic elements, multimedia support, and enhanced APIs.</p>
+                    
+                    <p>Every HTML document begins with a DOCTYPE declaration that tells the browser which version of HTML the page is using. The basic structure consists of the <code>&lt;html&gt;</code> root element, which contains the <code>&lt;head&gt;</code> (metadata) and <code>&lt;body&gt;</code> (visible content) sections.</p>
+                    
+                    <h3>Semantic HTML Elements</h3>
+                    <p>Semantic elements clearly describe their meaning to both the browser and the developer. Instead of using generic <code>&lt;div&gt;</code> containers for everything, HTML5 introduced meaningful tags that improve accessibility and SEO:</p>
+                    
                     <ul>
-                        <li><code>&lt;header&gt;</code>: Content intro or navigation.</li>
-                        <li><code>&lt;section&gt;</code>: Generic standalone section.</li>
-                        <li><code>&lt;article&gt;</code>: Self-contained composition.</li>
-                        <li><code>&lt;aside&gt;</code>: Side content like sidebars.</li>
+                        <li><code>&lt;header&gt;</code> - Represents introductory content or navigation links</li>
+                        <li><code>&lt;nav&gt;</code> - Defines a set of navigation links</li>
+                        <li><code>&lt;main&gt;</code> - Specifies the main content of the document</li>
+                        <li><code>&lt;article&gt;</code> - Represents self-contained composition</li>
+                        <li><code>&lt;section&gt;</code> - Defines a section in a document</li>
+                        <li><code>&lt;aside&gt;</code> - Defines content aside from main content</li>
+                        <li><code>&lt;footer&gt;</code> - Represents footer for a document or section</li>
                     </ul>
-                    <div style="background:rgba(9, 132, 227, 0.1); border-radius:10px; padding:20px; margin-top:20px;">
-                        <b>Bruno's Professional Insight:</b> Search engines (SEO) love semantic HTML. It helps them understand your site better!
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Using semantic HTML isn't just about best practices—it directly impacts your website's search engine rankings. Google's algorithms prioritize well-structured, semantic HTML because it helps them understand your content better. Additionally, screen readers rely on semantic elements to help visually impaired users navigate your site effectively.
                     </div>
-                    <h3>Attributes</h3>
-                    <p>Attributes provide additional information about elements. Example: <code>&lt;img src="pic.jpg" alt="Description"&gt;</code>.</p>
+                    
+                    <h3>HTML Attributes</h3>
+                    <p>Attributes provide additional information about HTML elements. They are always specified in the opening tag and usually come in name/value pairs like <code>name="value"</code>. Common attributes include <code>id</code>, <code>class</code>, <code>src</code>, <code>href</code>, <code>alt</code>, and <code>title</code>.</p>
+                    
+                    <p>The <code>id</code> attribute specifies a unique identifier for an element, while <code>class</code> can be used on multiple elements. The <code>src</code> attribute specifies the URL of an external resource (like images or scripts), and <code>href</code> defines the link destination for anchor tags.</p>
+                    
+                    <h3>Forms and Input Elements</h3>
+                    <p>HTML forms are essential for collecting user input. The <code>&lt;form&gt;</code> element can contain various input elements like text fields, checkboxes, radio buttons, submit buttons, and more. HTML5 introduced new input types such as email, url, number, date, color, and range, which provide better validation and user experience.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Try creating a complete registration form using HTML5 input types. Include fields for name (text), email (email), password (password), date of birth (date), and a submit button. Notice how modern browsers automatically validate the email format and provide date pickers!
+                    </div>
                 `,
-                code: "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: sans-serif; text-align: center; padding-top: 50px; }\n    .btn { background: #0984e3; color: white; padding: 15px 30px; border-radius: 50px; border: none; cursor: pointer; transition: 0.3s; }\n    .btn:hover { transform: scale(1.1); }\n  </style>\n</head>\n<body>\n  <h1>Welcome to BRU WEB Academy</h1>\n  <p>Engineered by Inezaime Bruno.</p>\n  <button class='btn' onclick='alert(\"Success!\")'>Launch System</button>\n</body>\n</html>",
+                code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B3Schools - HTML Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .btn {
+            background: #04AA6D;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to B3Schools</h1>
+        <p>Developed by Ineza Aime Bruno</p>
+        <button class="btn" onclick="alert('Welcome to the Academy!')">
+            Click Me!
+        </button>
+    </header>
+</body>
+</html>`,
                 quiz: [
-                    { q: "Which element is the root of an HTML page?", o: ["<head>", "<body>", "<html>"], a: 2 },
-                    { q: "What does HTML stand for?", o: ["Hyperlinks Text Mark Language", "Hyper Text Markup Language", "Home Tool Markup Language"], a: 1 }
+                    {
+                        question: "Which element is the root of an HTML document?",
+                        options: ["<head>", "<body>", "<html>", "<div>"],
+                        correct: 2
+                    },
+                    {
+                        question: "What does HTML stand for?",
+                        options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+                        correct: 0
+                    },
+                    {
+                        question: "Which HTML5 element defines navigation links?",
+                        options: ["<navigate>", "<nav>", "<navigation>", "<links>"],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the correct HTML for creating a hyperlink?",
+                        options: ["<a url='http://example.com'>", "<a href='http://example.com'>", "<link>http://example.com</link>", "<hyperlink>http://example.com</hyperlink>"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which attribute is used to provide alternative text for an image?",
+                        options: ["title", "alt", "src", "longdesc"],
+                        correct: 1
+                    }
                 ]
             },
-            python: {
-                title: "Python 3.11: AI & Data Science",
-                type: "py",
-                text: `
-                    <h2>Python Development</h2>
-                    <p>Python is a high-level, interpreted language. Its design philosophy emphasizes code readability.</p>
-                    <h3>Core Concepts</h3>
-                    <p><b>1. Lists:</b> Ordered collections: <code>my_list = [1, 2, 3]</code></p>
-                    <p><b>2. Dictionaries:</b> Key-value pairs: <code>user = {"id": 1}</code></p>
-                    <p><b>3. List Comprehension:</b> A concise way to create lists.</p>
-                `,
-                code: "# Python Engineering\nimport math\n\ndef bru_system_check(name):\n    status = \"Online\"\n    return f\"System for {name} is {status}. Area of circle: {math.pi * 5**2:.2f}\"\n\nprint(bru_system_check(\"Inezaime Bruno\"))\n\nfor i in range(1, 6):\n    print(f\"Processing Core {i}...\")",
-                quiz: [
-                    { q: "How do you start a function?", o: ["function name():", "def name():", "void name()"], a: 1 },
-                    { q: "Which collection is unordered?", o: ["List", "Dictionary", "Tuple"], a: 1 }
-                ]
-            },
-            js: {
-                title: "JavaScript ES6: The Interaction Engine",
-                type: "js",
-                text: `
-                    <h2>Modern JavaScript</h2>
-                    <p>JavaScript is the most popular programming language in the world. Since ES6, it has become incredibly powerful.</p>
-                    <h3>Promises and Async</h3>
-                    <p>JS handles asynchronous operations using Promises and <code>async/await</code>.</p>
-                `,
-                code: "// JS Master Course\nconst creator = 'Inezaime Bruno';\n\nconst initialize = async () => {\n  console.log('Validating system files...');\n  await new Promise(r => setTimeout(r, 1000));\n  console.log(`Welcome, ${creator}. Intelligence Active.`);\n};\n\ninitialize();",
-                quiz: [{ q: "Which is for constant values?", o: ["let", "var", "const"], a: 2 }]
-            },
-            cpp: {
-                title: "C++ Masterclass: Systems & Games",
-                type: "js",
-                text: "<h2>C++ Systems</h2><p>C++ is used for building high-performance applications, browsers, and AAA games.</p>",
-                code: "#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << \"C++ Logic Online\" << endl;\n  return 0;\n}",
-                quiz: [{ q: "What symbol ends a statement?", o: [".", ":", ";"], a: 2 }]
-            },
-            sql: {
-                title: "SQL: Database Architecture",
-                type: "js",
-                text: "<h2>SQL Queries</h2><p>Structured Query Language is how we communicate with relational databases.</p>",
-                code: "SELECT * FROM Users \nWHERE name = 'Inezaime Bruno' \nORDER BY id DESC;",
-                quiz: [{ q: "What does SQL stand for?", o: ["Simple Query Lang", "Structured Query Lang"], a: 1 }]
-            },
-            php: {
-                title: "PHP 8: Server-Side Logic",
+            
+            css: {
+                name: "CSS3",
+                icon: "🎨",
                 type: "html",
-                text: "<h2>PHP Backend</h2><p>PHP powers over 70% of the web. It runs on the server.</p>",
-                code: "<?php\n  $name = \"Inezaime Bruno\";\n  echo \"<h1>Server Response: Hello $name</h1>\";\n?>",
-                quiz: [{ q: "Where does PHP run?", o: ["Browser", "Server"], a: 1 }]
+                lesson: `
+                    <h2>CSS3: Styling the Modern Web</h2>
+                    
+                    <h3>Understanding CSS</h3>
+                    <p>CSS (Cascading Style Sheets) is the language used to style HTML documents. It controls the visual presentation of web pages, including colors, fonts, layouts, spacing, and animations. CSS3 is the latest standard, introducing powerful features like flexbox, grid, animations, transitions, and media queries for responsive design.</p>
+                    
+                    <p>CSS works by selecting HTML elements and applying style rules to them. A CSS rule consists of a selector and a declaration block. The selector points to the HTML element you want to style, while the declaration block contains one or more declarations separated by semicolons.</p>
+                    
+                    <h3>The CSS Box Model</h3>
+                    <p>Every element in web design is a rectangular box. The CSS box model describes how these boxes are structured. From inside to outside, it consists of: content, padding, border, and margin. Understanding the box model is crucial for creating precise layouts.</p>
+                    
+                    <ul>
+                        <li><strong>Content:</strong> The actual content of the box (text, images, etc.)</li>
+                        <li><strong>Padding:</strong> Transparent area around the content, inside the border</li>
+                        <li><strong>Border:</strong> A border surrounding the padding (if any) and content</li>
+                        <li><strong>Margin:</strong> Transparent area outside the border, creating space between elements</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> The box-sizing property is one of the most important CSS properties. Set it to "border-box" to make width and height include padding and border, making layouts much more predictable. This is so useful that many developers apply it globally using the universal selector: * { box-sizing: border-box; }
+                    </div>
+                    
+                    <h3>Flexbox Layout</h3>
+                    <p>Flexbox is a one-dimensional layout method for arranging items in rows or columns. Items flex (expand or shrink) to fill available space. It makes it easy to align and distribute space among items in a container, even when their size is unknown or dynamic.</p>
+                    
+                    <p>To create a flex container, set display: flex on the parent element. The direct children automatically become flex items. You can control direction with flex-direction, alignment with justify-content and align-items, and wrapping with flex-wrap.</p>
+                    
+                    <h3>CSS Grid</h3>
+                    <p>CSS Grid is a two-dimensional layout system for the web. It lets you layout content in rows and columns, making it perfect for creating complex, responsive layouts. Grid is more powerful than flexbox for two-dimensional layouts, though they often work well together.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a photo gallery using CSS Grid with 3 columns on desktop, 2 on tablet, and 1 on mobile. Use grid-template-columns with repeat() and media queries. This is a real-world skill used in professional web development every day!
+                    </div>
+                    
+                    <h3>CSS Variables (Custom Properties)</h3>
+                    <p>CSS variables allow you to store values that you want to reuse throughout your stylesheet. They're defined using the -- prefix and accessed with the var() function. This makes it easy to maintain consistent theming and update values in one place.</p>
+                `,
+                code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root {
+            --primary-color: #04AA6D;
+            --secondary-color: #0984e3;
+            --text-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>CSS3 Mastery</h1>
+        <p>Beautiful styling by Ineza Aime Bruno</p>
+        <button class="btn">Hover Over Me!</button>
+    </div>
+</body>
+</html>`,
+                quiz: [
+                    {
+                        question: "What does CSS stand for?",
+                        options: ["Colorful Style Sheets", "Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which property is used to change the background color?",
+                        options: ["bgcolor", "color", "background-color", "bg-color"],
+                        correct: 2
+                    },
+                    {
+                        question: "How do you make text bold in CSS?",
+                        options: ["font-weight: bold", "text-style: bold", "font: bold", "bold: true"],
+                        correct: 0
+                    },
+                    {
+                        question: "Which CSS property controls the text size?",
+                        options: ["text-size", "font-size", "text-style", "font-weight"],
+                        correct: 1
+                    },
+                    {
+                        question: "How do you select an element with id 'header'?",
+                        options: [".header", "*header", "#header", "header"],
+                        correct: 2
+                    }
+                ]
             },
+            
+            javascript: {
+                name: "JavaScript ES6",
+                icon: "⚡",
+                type: "html",
+                lesson: `
+                    <h2>JavaScript ES6: The Language of Interactivity</h2>
+                    
+                    <h3>Introduction to JavaScript</h3>
+                    <p>JavaScript is the programming language of the web. It enables interactive web pages and is an essential part of web applications. While HTML provides structure and CSS handles presentation, JavaScript adds behavior and interactivity. ES6 (ECMAScript 2015) introduced major improvements including arrow functions, classes, modules, promises, and much more.</p>
+                    
+                    <p>JavaScript can update and change both HTML and CSS, calculate and manipulate data, validate form input, create cookies, and communicate with servers. Modern JavaScript runs not only in browsers but also on servers through Node.js, making it a versatile full-stack language.</p>
+                    
+                    <h3>Variables and Data Types</h3>
+                    <p>ES6 introduced <code>let</code> and <code>const</code> for declaring variables. Use <code>const</code> for values that won't be reassigned, and <code>let</code> for values that will change. Avoid using the old <code>var</code> keyword as it has confusing scoping rules.</p>
+                    
+                    <ul>
+                        <li><strong>String:</strong> Text data enclosed in quotes</li>
+                        <li><strong>Number:</strong> Numeric values (integers and decimals)</li>
+                        <li><strong>Boolean:</strong> True or false values</li>
+                        <li><strong>Array:</strong> Ordered collections of values</li>
+                        <li><strong>Object:</strong> Collections of key-value pairs</li>
+                        <li><strong>Null & Undefined:</strong> Special values representing absence of value</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Always use <code>const</code> by default, and only use <code>let</code> when you know the value will change. This makes your code more predictable and helps prevent bugs. Modern JavaScript development heavily favors immutability and functional programming patterns.
+                    </div>
+                    
+                    <h3>Arrow Functions</h3>
+                    <p>Arrow functions provide a shorter syntax for writing functions and they lexically bind the <code>this</code> value. They're perfect for callbacks and functional programming methods like map, filter, and reduce.</p>
+                    
+                    <p>Traditional function: <code>function add(a, b) { return a + b; }</code><br>
+                    Arrow function: <code>const add = (a, b) => a + b;</code></p>
+                    
+                    <h3>Promises and Async/Await</h3>
+                    <p>JavaScript is single-threaded but uses asynchronous patterns to handle operations that take time, like fetching data from servers. Promises represent eventual completion (or failure) of an asynchronous operation. Async/await syntax makes asynchronous code look and behave like synchronous code.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Try creating a function that fetches data from a public API using fetch() and async/await. Display the results on the page. This is the foundation of modern web applications that communicate with servers!
+                    </div>
+                    
+                    <h3>DOM Manipulation</h3>
+                    <p>The Document Object Model (DOM) is a programming interface for HTML documents. JavaScript can access and modify the DOM to create dynamic content, change styles, respond to events, and validate input. Methods like querySelector, addEventListener, and createElement are essential tools.</p>
+                `,
+                code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        #counter { font-size: 48px; color: #04AA6D; margin: 20px 0; }
+        button {
+            background: #04AA6D;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #039b5f;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JavaScript Counter</h1>
+        <p>by Ineza Aime Bruno</p>
+        <div id="counter">0</div>
+        <button onclick="increment()">Increment</button>
+        <button onclick="decrement()">Decrement</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+    
+    <script>
+        let count = 0;
+        const counterDisplay = document.getElementById('counter');
+        
+        const updateDisplay = () => {
+            counterDisplay.textContent = count;
+            counterDisplay.style.color = count > 0 ? '#04AA6D' : 
+                                          count < 0 ? '#ff4757' : '#333';
+        };
+        
+        const increment = () => {
+            count++;
+            updateDisplay();
+        };
+        
+        const decrement = () => {
+            count--;
+            updateDisplay();
+        };
+        
+        const reset = () => {
+            count = 0;
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>`,
+                quiz: [
+                    {
+                        question: "Which keyword declares a constant in ES6?",
+                        options: ["var", "let", "const", "constant"],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the correct syntax for an arrow function?",
+                        options: ["function => {}", "() => {}", "=> function()", "arrow function()"],
+                        correct: 1
+                    },
+                    {
+                        question: "How do you select an element with id 'myId' in JavaScript?",
+                        options: ["document.querySelector('#myId')", "document.getElement('myId')", "document.select('#myId')", "select('#myId')"],
+                        correct: 0
+                    },
+                    {
+                        question: "Which method adds an event listener?",
+                        options: ["addEvent()", "addEventListener()", "attachEvent()", "on()"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does 'async/await' do in JavaScript?",
+                        options: ["Makes code run faster", "Handles asynchronous operations", "Creates animations", "Compiles code"],
+                        correct: 1
+                    }
+                ]
+            },
+            
+            python: {
+                name: "Python 3",
+                icon: "🐍",
+                type: "python",
+                lesson: `
+                    <h2>Python 3: Programming for Everyone</h2>
+                    
+                    <h3>Why Python?</h3>
+                    <p>Python is a high-level, interpreted programming language with dynamic semantics. Its high-level built-in data structures, combined with dynamic typing and binding, make it very attractive for rapid application development. Python's simple, easy-to-learn syntax emphasizes readability, reducing the cost of program maintenance.</p>
+                    
+                    <p>Python is used in web development (Django, Flask), data science and machine learning (NumPy, Pandas, TensorFlow), automation and scripting, scientific computing, artificial intelligence, and much more. Companies like Google, Facebook, Netflix, and NASA use Python extensively.</p>
+                    
+                    <h3>Python Syntax Basics</h3>
+                    <p>Python uses indentation to define code blocks instead of curly braces. This makes Python code clean and readable. The standard indentation is 4 spaces. Python is case-sensitive, and variables don't require explicit type declaration.</p>
+                    
+                    <ul>
+                        <li>Comments start with # for single-line or triple quotes for multi-line</li>
+                        <li>Variables are created when you assign a value to them</li>
+                        <li>Print output using the print() function</li>
+                        <li>Get user input with the input() function</li>
+                        <li>Conditional statements use if, elif, and else</li>
+                        <li>Loops include for and while statements</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Python's philosophy is summed up in "The Zen of Python" (type 'import this' in Python). Key principles include "Beautiful is better than ugly," "Simple is better than complex," and "Readability counts." These principles guide how professional Python code should be written.
+                    </div>
+                    
+                    <h3>Data Structures</h3>
+                    <p>Python has four built-in data structures: Lists (ordered, mutable), Tuples (ordered, immutable), Sets (unordered, unique elements), and Dictionaries (key-value pairs). Understanding when to use each is crucial for writing efficient Python code.</p>
+                    
+                    <p>Lists are created with square brackets [1, 2, 3], tuples with parentheses (1, 2, 3), sets with curly braces {1, 2, 3}, and dictionaries with key-value pairs {'name': 'Bruno', 'age': 25}.</p>
+                    
+                    <h3>Functions and Modules</h3>
+                    <p>Functions are defined using the <code>def</code> keyword, followed by the function name and parentheses. Functions can accept parameters and return values. Python's extensive standard library provides modules for file I/O, system calls, sockets, and even Internet protocols.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a function that calculates the factorial of a number using recursion. Then optimize it using Python's built-in functools.lru_cache decorator for memoization. This demonstrates both fundamental programming concepts and advanced Python features!
+                    </div>
+                    
+                    <h3>Object-Oriented Programming</h3>
+                    <p>Python supports object-oriented programming (OOP) through classes and objects. A class is a blueprint for creating objects, which can have attributes (data) and methods (functions). OOP helps organize code and makes it more reusable and maintainable.</p>
+                `,
+                code: `# Python 3 - B3Schools Academy
+# Developed by Ineza Aime Bruno
+
+import math
+from datetime import datetime
+
+def greet_user(name="Student"):
+    """Welcome function with default parameter"""
+    return f"Welcome to B3Schools, {name}!"
+
+def calculate_circle_area(radius):
+    """Calculate area of a circle"""
+    area = math.pi * radius ** 2
+    return round(area, 2)
+
+class Student:
+    """Student class demonstrating OOP"""
+    def __init__(self, name, course):
+        self.name = name
+        self.course = course
+        self.enrolled_date = datetime.now()
+    
+    def get_info(self):
+        return f"{self.name} is studying {self.course}"
+
+# Main execution
+print(greet_user("Ineza Aime Bruno"))
+print(f"\\nCircle area (radius 5): {calculate_circle_area(5)} sq units")
+
+# Create student instance
+student = Student("Bruno", "Web Development")
+print(f"\\n{student.get_info()}")
+
+# List comprehension example
+numbers = [x**2 for x in range(1, 6)]
+print(f"\\nSquares: {numbers}")
+
+print("\\n✅ Python code executed successfully!")`,
+                quiz: [
+                    {
+                        question: "How do you start a function in Python?",
+                        options: ["function myFunc():", "def myFunc():", "void myFunc():", "func myFunc():"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which collection type is unordered in Python?",
+                        options: ["List", "Tuple", "Dictionary", "String"],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the correct syntax for a comment in Python?",
+                        options: ["// comment", "/* comment */", "# comment", "<!-- comment -->"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which keyword is used for inheritance in Python?",
+                        options: ["extends", "inherits", "class ChildClass(ParentClass):", "inherit"],
+                        correct: 2
+                    },
+                    {
+                        question: "What does 'self' represent in Python class methods?",
+                        options: ["The class itself", "The instance of the class", "A global variable", "Nothing special"],
+                        correct: 1
+                    }
+                ]
+            },
+            
+            sql: {
+                name: "SQL",
+                icon: "🗄️",
+                type: "console",
+                lesson: `
+                    <h2>SQL: Mastering Database Queries</h2>
+                    
+                    <h3>Introduction to SQL</h3>
+                    <p>SQL (Structured Query Language) is a standard language for storing, manipulating, and retrieving data in databases. SQL lets you access and manipulate databases, create and drop databases and tables, insert, update, and delete data, and much more. It's used in virtually every application that stores data.</p>
+                    
+                    <p>SQL is declarative, meaning you describe what you want, not how to get it. The database engine figures out the most efficient way to execute your query. This makes SQL powerful and relatively easy to learn, even for non-programmers.</p>
+                    
+                    <h3>Basic SQL Commands</h3>
+                    <p>The four fundamental operations in SQL are often abbreviated as CRUD: Create (INSERT), Read (SELECT), Update (UPDATE), and Delete (DELETE). These operations form the foundation of all database interactions.</p>
+                    
+                    <ul>
+                        <li><strong>SELECT:</strong> Retrieves data from one or more tables</li>
+                        <li><strong>INSERT INTO:</strong> Adds new records to a table</li>
+                        <li><strong>UPDATE:</strong> Modifies existing records</li>
+                        <li><strong>DELETE:</strong> Removes records from a table</li>
+                        <li><strong>CREATE TABLE:</strong> Creates a new table</li>
+                        <li><strong>DROP TABLE:</strong> Deletes a table</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Always use WHERE clauses with UPDATE and DELETE statements! Without them, you'll update or delete ALL records in the table. This is one of the most common and costly mistakes in database management. Always test with SELECT first to verify which records will be affected.
+                    </div>
+                    
+                    <h3>JOINs and Relationships</h3>
+                    <p>JOINs are used to combine rows from two or more tables based on a related column. There are different types of JOINs: INNER JOIN (returns matching records), LEFT JOIN (returns all from left table), RIGHT JOIN (returns all from right table), and FULL JOIN (returns all records).</p>
+                    
+                    <p>Understanding relationships between tables (one-to-one, one-to-many, many-to-many) is crucial for proper database design. Foreign keys enforce referential integrity, ensuring data consistency across related tables.</p>
+                    
+                    <h3>Aggregate Functions</h3>
+                    <p>SQL provides functions to perform calculations on data: COUNT(), SUM(), AVG(), MAX(), and MIN(). These are often used with GROUP BY to organize results into groups and HAVING to filter grouped results.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Design a database schema for an e-commerce system with tables for Users, Products, Orders, and OrderItems. Write queries to find the total revenue, most popular products, and top customers. This mirrors real-world database design!
+                    </div>
+                    
+                    <h3>Indexing and Performance</h3>
+                    <p>Indexes improve query performance by creating a data structure that makes data retrieval faster. However, they slow down INSERT, UPDATE, and DELETE operations. Understanding when and where to use indexes is key to database optimization.</p>
+                `,
+                code: `-- SQL Queries - B3Schools Academy
+-- Developed by Ineza Aime Bruno
+
+-- Create a Students table
+CREATE TABLE Students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    course VARCHAR(50),
+    enrolled_date DATE,
+    grade DECIMAL(3,2)
+);
+
+-- Insert sample data
+INSERT INTO Students (name, email, course, enrolled_date, grade)
+VALUES 
+    ('Ineza Aime Bruno', 'bruno@b3schools.com', 'Web Development', '2024-01-15', 95.5),
+    ('Alice Johnson', 'alice@example.com', 'Data Science', '2024-02-01', 88.0),
+    ('Bob Smith', 'bob@example.com', 'Web Development', '2024-01-20', 92.3);
+
+-- Select all students
+SELECT * FROM Students;
+
+-- Find students in Web Development
+SELECT name, grade 
+FROM Students 
+WHERE course = 'Web Development' 
+ORDER BY grade DESC;
+
+-- Calculate average grade by course
+SELECT course, AVG(grade) as avg_grade, COUNT(*) as student_count
+FROM Students 
+GROUP BY course;
+
+-- Update a student's grade
+UPDATE Students 
+SET grade = 96.0 
+WHERE email = 'bruno@b3schools.com';
+
+-- Find top performing students
+SELECT name, course, grade 
+FROM Students 
+WHERE grade >= 90 
+ORDER BY grade DESC;`,
+                quiz: [
+                    {
+                        question: "Which SQL statement is used to extract data from a database?",
+                        options: ["GET", "EXTRACT", "SELECT", "OPEN"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which SQL keyword is used to sort the result set?",
+                        options: ["SORT", "ORDER BY", "SORT BY", "ORDER"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does SQL stand for?",
+                        options: ["Structured Query Language", "Simple Query Language", "Statement Question Language", "Strong Question Language"],
+                        correct: 0
+                    },
+                    {
+                        question: "Which JOIN returns all records from the left table?",
+                        options: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which function counts the number of rows?",
+                        options: ["SUM()", "COUNT()", "NUMBER()", "TOTAL()"],
+                        correct: 1
+                    }
+                ]
+            },
+            
+            php: {
+                name: "PHP",
+                icon: "🐘",
+                type: "html",
+                lesson: `
+                    <h2>PHP: Server-Side Scripting</h2>
+                    
+                    <h3>Understanding PHP</h3>
+                    <p>PHP (Hypertext Preprocessor) is a popular server-side scripting language designed for web development. It's executed on the server, generating HTML which is then sent to the client. PHP can collect form data, generate dynamic page content, send and receive cookies, and interact with databases.</p>
+                    
+                    <p>PHP powers over 75% of all websites, including platforms like WordPress, Facebook, and Wikipedia. It's free, open-source, runs on various platforms (Windows, Linux, Unix, Mac OS), supports a wide range of databases, and is easy to learn for beginners.</p>
+                    
+                    <h3>PHP Syntax</h3>
+                    <p>PHP code is executed on the server and the result is returned to the browser as plain HTML. PHP files can contain text, HTML, CSS, JavaScript, and PHP code. A PHP script starts with &lt;?php and ends with ?&gt;. Statements end with a semicolon.</p>
+                    
+                    <ul>
+                        <li>Variables start with the $ symbol</li>
+                        <li>PHP is case-sensitive for variable names</li>
+                        <li>Comments use // for single-line or /* */ for multi-line</li>
+                        <li>Echo and print are used to output data</li>
+                        <li>Strings can use single or double quotes</li>
+                        <li>Arrays can be indexed or associative</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> PHP 8 introduced major performance improvements and new features like JIT compilation, named arguments, union types, and attributes. Always keep your PHP version updated for security and performance benefits. Many legacy applications still run PHP 5, but modern development should use PHP 8+.
+                    </div>
+                    
+                    <h3>Working with Forms</h3>
+                    <p>PHP is excellent at handling form data. The $_GET and $_POST superglobals collect data sent from HTML forms. $_GET collects data from URL parameters, while $_POST collects data from HTTP POST requests. Always validate and sanitize user input to prevent security vulnerabilities.</p>
+                    
+                    <p>Common form handling tasks include validation (checking if required fields are filled), sanitization (removing harmful characters), and processing (storing in database, sending emails, etc.). PHP provides built-in functions like filter_var() for validation and htmlspecialchars() for output escaping.</p>
+                    
+                    <h3>PHP and MySQL</h3>
+                    <p>PHP works seamlessly with MySQL databases. You can use MySQLi or PDO (PHP Data Objects) to interact with databases. PDO is recommended as it supports multiple database types and provides better security through prepared statements.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a user registration system with PHP that validates email format, checks password strength, hashes passwords using password_hash(), stores data in MySQL, and prevents SQL injection using prepared statements. This is fundamental for any web application!
+                    </div>
+                    
+                    <h3>Object-Oriented PHP</h3>
+                    <p>Modern PHP is object-oriented, supporting classes, objects, inheritance, interfaces, traits, and namespaces. OOP helps organize code, makes it reusable, and is essential for frameworks like Laravel and Symfony.</p>
+                `,
+                code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PHP Demo - B3Schools</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            max-width: 800px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 { color: #04AA6D; }
+        .info { 
+            background: #f1f1f1; 
+            padding: 15px; 
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <?php
+            // PHP Server-Side Code
+            $developer = "Ineza Aime Bruno";
+            $academy = "B3Schools";
+            $year = date("Y");
+            
+            echo "<h1>Welcome to $academy</h1>";
+            echo "<p>Developed by <strong>$developer</strong></p>";
+            
+            // Array demonstration
+            $technologies = array("HTML", "CSS", "JavaScript", "PHP", "Python", "SQL");
+            echo "<div class='info'>";
+            echo "<h3>Technologies We Teach:</h3>";
+            echo "<ul>";
+            foreach($technologies as $tech) {
+                echo "<li>$tech</li>";
+            }
+            echo "</ul>";
+            echo "</div>";
+            
+            // Function demonstration
+            function calculateArea($radius) {
+                return pi() * pow($radius, 2);
+            }
+            
+            $radius = 5;
+            $area = calculateArea($radius);
+            
+            echo "<div class='info'>";
+            echo "<h3>Math Function:</h3>";
+            echo "Circle area (radius $radius): " . round($area, 2) . " sq units";
+            echo "</div>";
+            
+            echo "<p><small>© $year B3Schools Academy</small></p>";
+        ?>
+    </div>
+</body>
+</html>`,
+                quiz: [
+                    {
+                        question: "What does PHP stand for?",
+                        options: ["Personal Home Page", "PHP: Hypertext Preprocessor", "Private Home Page", "Programming Hypertext Protocol"],
+                        correct: 1
+                    },
+                    {
+                        question: "How do you start a PHP script?",
+                        options: ["<php>", "<?php", "<script>", "<!php"],
+                        correct: 1
+                    },
+                    {
+                        question: "All variables in PHP start with which symbol?",
+                        options: ["#", "$", "&", "@"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which superglobal is used to collect form data after submitting a form with method='post'?",
+                        options: ["$_GET", "$_POST", "$_REQUEST", "$_FORM"],
+                        correct: 1
+                    },
+                    {
+                        question: "Where does PHP code execute?",
+                        options: ["Client-side", "Server-side", "Browser", "Database"],
+                        correct: 1
+                    }
+                ]
+            },
+            
+            cpp: {
+                name: "C++",
+                icon: "⚙️",
+                type: "console",
+                lesson: `
+                    <h2>C++: Systems Programming Powerhouse</h2>
+                    
+                    <h3>The C++ Language</h3>
+                    <p>C++ is a general-purpose programming language created as an extension of the C programming language. It's known for its performance and is widely used in game development, embedded systems, operating systems, browsers, and high-performance applications. C++ gives programmers a high level of control over system resources and memory.</p>
+                    
+                    <p>C++ supports multiple programming paradigms including procedural, object-oriented, and generic programming. It's a compiled language, meaning code is converted to machine code before execution, resulting in very fast runtime performance.</p>
+                    
+                    <h3>Core Concepts</h3>
+                    <p>C++ programs consist of functions, with main() being the entry point. The language uses semicolons to terminate statements and curly braces to group statements into blocks. C++ is case-sensitive and requires variable type declarations.</p>
+                    
+                    <ul>
+                        <li><strong>Headers:</strong> Include files containing declarations (#include)</li>
+                        <li><strong>Namespace:</strong> Organize code into logical groups (using namespace std;)</li>
+                        <li><strong>Data Types:</strong> int, float, double, char, bool, string</li>
+                        <li><strong>Pointers:</strong> Variables that store memory addresses</li>
+                        <li><strong>References:</strong> Aliases for existing variables</li>
+                        <li><strong>Classes:</strong> User-defined types combining data and functions</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> C++ memory management requires manual allocation and deallocation using new/delete. Modern C++ (C++11 and later) introduces smart pointers (unique_ptr, shared_ptr) that automatically manage memory, preventing memory leaks. Always prefer smart pointers in modern C++ development!
+                    </div>
+                    
+                    <h3>Object-Oriented Programming</h3>
+                    <p>C++ is famous for OOP support. Classes encapsulate data and functions, inheritance allows code reuse, polymorphism enables flexible interfaces, and encapsulation hides internal implementation details. These concepts make large programs more manageable.</p>
+                    
+                    <p>Constructors initialize objects, destructors clean up resources, access specifiers (public, private, protected) control access to class members, and virtual functions enable runtime polymorphism.</p>
+                    
+                    <h3>Templates and STL</h3>
+                    <p>Templates enable generic programming, allowing functions and classes to work with different data types. The Standard Template Library (STL) provides powerful containers (vector, map, set), algorithms (sort, find, transform), and iterators.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a template class for a generic Stack that works with any data type. Implement push, pop, and peek methods. This demonstrates the power of C++ templates and is a common interview question for C++ positions!
+                    </div>
+                `,
+                code: `#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Class demonstration
+class Student {
+private:
+    string name;
+    int grade;
+    
+public:
+    // Constructor
+    Student(string n, int g) : name(n), grade(g) {}
+    
+    // Getter methods
+    string getName() const { return name; }
+    int getGrade() const { return grade; }
+    
+    // Display info
+    void display() {
+        cout << "Student: " << name << ", Grade: " << grade << endl;
+    }
+};
+
+// Function to calculate factorial
+int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+int main() {
+    cout << "=== B3Schools C++ Academy ===" << endl;
+    cout << "Developed by Ineza Aime Bruno\\n" << endl;
+    
+    // Create student object
+    Student s1("Bruno", 95);
+    s1.display();
+    
+    // Vector demonstration
+    vector<int> numbers = {5, 2, 8, 1, 9};
+    cout << "\\nOriginal numbers: ";
+    for(int num : numbers) cout << num << " ";
+    
+    sort(numbers.begin(), numbers.end());
+    cout << "\\nSorted numbers: ";
+    for(int num : numbers) cout << num << " ";
+    
+    // Calculate factorial
+    int n = 5;
+    cout << "\\n\\nFactorial of " << n << " = " << factorial(n) << endl;
+    
+    cout << "\\n✓ Program executed successfully!" << endl;
+    
+    return 0;
+}`,
+                quiz: [
+                    {
+                        question: "Which symbol terminates a statement in C++?",
+                        options: [".", ":", ";", ","],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the entry point of a C++ program?",
+                        options: ["start()", "begin()", "main()", "run()"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which header file is needed for input/output operations?",
+                        options: ["<stdio.h>", "<iostream>", "<io.h>", "<stream>"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does 'cout' stand for in C++?",
+                        options: ["Character output", "Console output", "Computer output", "Code output"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which keyword is used to create a class in C++?",
+                        options: ["class", "Class", "object", "struct"],
+                        correct: 0
+                    }
+                ]
+            },
+            
+            java: {
+                name: "Java",
+                icon: "☕",
+                type: "console",
+                lesson: `
+                    <h2>Java: Enterprise Application Development</h2>
+                    
+                    <h3>Introduction to Java</h3>
+                    <p>Java is a high-level, class-based, object-oriented programming language designed to have as few implementation dependencies as possible. It follows the principle of "Write Once, Run Anywhere" (WORA), meaning compiled Java code can run on all platforms supporting Java without recompilation.</p>
+                    
+                    <p>Java is used for Android app development, enterprise software, scientific computing, big data processing, and server-side web applications. Major companies like Amazon, Google, and Netflix use Java extensively in their infrastructure.</p>
+                    
+                    <h3>Java Fundamentals</h3>
+                    <p>Java is strictly object-oriented, meaning everything is an object except primitive types. Programs are organized into classes, which are blueprints for objects. Java uses a virtual machine (JVM) to execute bytecode, providing platform independence.</p>
+                    
+                    <ul>
+                        <li><strong>Classes and Objects:</strong> Classes define structure, objects are instances</li>
+                        <li><strong>Packages:</strong> Organize related classes into namespaces</li>
+                        <li><strong>Inheritance:</strong> Classes can inherit from other classes (extends keyword)</li>
+                        <li><strong>Interfaces:</strong> Define contracts that classes must implement</li>
+                        <li><strong>Access Modifiers:</strong> public, private, protected, default</li>
+                        <li><strong>Exception Handling:</strong> try-catch blocks for error management</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Java's garbage collection automatically manages memory, unlike C++. However, understanding how garbage collection works is crucial for writing efficient Java applications. Avoid creating unnecessary objects in loops, use StringBuilder for string concatenation, and be aware of memory leaks from unclosed resources.
+                    </div>
+                    
+                    <h3>Collections Framework</h3>
+                    <p>The Java Collections Framework provides data structures and algorithms. Key interfaces include List (ArrayList, LinkedList), Set (HashSet, TreeSet), Map (HashMap, TreeMap), and Queue. Understanding when to use each collection type is essential for efficient programming.</p>
+                    
+                    <p>ArrayList provides fast random access but slow insertion/deletion, LinkedList is opposite. HashMap offers O(1) lookup with no ordering, TreeMap maintains sorted order with O(log n) lookup. Choose based on your specific use case.</p>
+                    
+                    <h3>Multithreading</h3>
+                    <p>Java has built-in support for multithreading, allowing concurrent execution of multiple parts of a program. This is crucial for modern applications that need to handle multiple tasks simultaneously. Threads can be created by extending Thread class or implementing Runnable interface.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a simple banking system using Java with Account class, Thread-safe methods using synchronized keyword, and demonstrate potential race conditions. This teaches critical multithreading concepts used in real-world applications!
+                    </div>
+                `,
+                code: `import java.util.*;
+
+public class B3SchoolsJavaDemo {
+    
+    // Student class demonstration
+    static class Student {
+        private String name;
+        private int grade;
+        
+        public Student(String name, int grade) {
+            this.name = name;
+            this.grade = grade;
+        }
+        
+        public String getName() { return name; }
+        public int getGrade() { return grade; }
+        
+        @Override
+        public String toString() {
+            return "Student: " + name + ", Grade: " + grade;
+        }
+    }
+    
+    // Main method - program entry point
+    public static void main(String[] args) {
+        System.out.println("=== B3Schools Java Academy ===");
+        System.out.println("Developed by Ineza Aime Bruno\\n");
+        
+        // Create ArrayList of students
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(new Student("Bruno", 95));
+        students.add(new Student("Alice", 88));
+        students.add(new Student("Bob", 92));
+        
+        // Display all students
+        System.out.println("Student List:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        
+        // Find average grade
+        double avgGrade = students.stream()
+                                  .mapToInt(Student::getGrade)
+                                  .average()
+                                  .orElse(0.0);
+        System.out.println("\\nAverage Grade: " + avgGrade);
+        
+        // HashMap demonstration
+        HashMap<String, Integer> scores = new HashMap<>();
+        scores.put("Math", 95);
+        scores.put("Science", 92);
+        scores.put("English", 88);
+        
+        System.out.println("\\nCourse Scores:");
+        scores.forEach((course, score) -> 
+            System.out.println(course + ": " + score));
+        
+        System.out.println("\\n✓ Program executed successfully!");
+    }
+}`,
+                quiz: [
+                    {
+                        question: "What does JVM stand for?",
+                        options: ["Java Variable Machine", "Java Virtual Machine", "Java Visual Module", "Just Virtual Machine"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which keyword is used to create a subclass in Java?",
+                        options: ["extends", "inherit", "implements", "subclass"],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the default value of a boolean variable in Java?",
+                        options: ["true", "false", "0", "null"],
+                        correct: 1
+                    },
+                    {
+                        question: "Which collection maintains insertion order?",
+                        options: ["HashSet", "TreeSet", "ArrayList", "HashMap"],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the entry point of a Java program?",
+                        options: ["start()", "main()", "run()", "execute()"],
+                        correct: 1
+                    }
+                ]
+            },
+            
             rust: {
-                title: "Rust: Safe Systems Programming",
-                type: "js",
-                text: "<h2>Rust Memory Safety</h2><p>Rust prevents memory leaks and crashes using a unique ownership system.</p>",
-                code: "fn main() {\n  let x = String::from(\"Bruno Safety\");\n  println!(\"{}\", x);\n}",
-                quiz: [{ q: "Does Rust use Garbage Collection?", o: ["Yes", "No"], a: 1 }]
+                name: "Rust",
+                icon: "🦀",
+                type: "console",
+                lesson: `
+                    <h2>Rust: Safe Systems Programming</h2>
+                    
+                    <h3>Why Rust?</h3>
+                    <p>Rust is a systems programming language focused on safety, speed, and concurrency. It achieves memory safety without garbage collection, making it ideal for performance-critical applications. Rust prevents common bugs like null pointer dereferences, buffer overflows, and data races at compile time.</p>
+                    
+                    <p>Rust is used by companies like Microsoft, Amazon, Google, and Dropbox for systems-level programming, web assembly, embedded systems, and blockchain development. It's consistently voted the most loved programming language in developer surveys.</p>
+                    
+                    <h3>Ownership System</h3>
+                    <p>Rust's ownership system is its most unique feature. Every value has an owner, there can only be one owner at a time, and when the owner goes out of scope, the value is dropped. This eliminates memory leaks and ensures memory safety without a garbage collector.</p>
+                    
+                    <ul>
+                        <li><strong>Ownership:</strong> Each value has a single owner variable</li>
+                        <li><strong>Borrowing:</strong> References allow using values without taking ownership</li>
+                        <li><strong>Lifetimes:</strong> Ensure references are always valid</li>
+                        <li><strong>Move Semantics:</strong> Transferring ownership between variables</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Rust's borrow checker can be challenging for beginners, but it's teaching you to think about memory management correctly. Once you understand ownership, you'll write safer code in any language. The compiler errors are helpful teachers—read them carefully!
+                    </div>
+                    
+                    <h3>Pattern Matching</h3>
+                    <p>Rust's match expression is incredibly powerful for control flow. Unlike switch statements in other languages, match must be exhaustive and can destructure complex data types. This ensures you handle all possible cases at compile time.</p>
+                    
+                    <h3>Concurrency Without Fear</h3>
+                    <p>Rust's ownership system eliminates data races at compile time. The type system ensures that data is either immutably shared or mutably owned, never both. This makes concurrent programming much safer than in languages like C++.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Create a simple web server using Rust's actix-web framework. Rust's performance makes it excellent for web services, and its safety guarantees mean fewer production crashes!
+                    </div>
+                `,
+                code: `// Rust Programming - B3Schools Academy
+// Developed by Ineza Aime Bruno
+
+// Student struct with ownership demonstration
+struct Student {
+    name: String,
+    grade: i32,
+}
+
+impl Student {
+    // Constructor
+    fn new(name: &str, grade: i32) -> Student {
+        Student {
+            name: name.to_string(),
+            grade,
+        }
+    }
+    
+    // Method with borrowing
+    fn display(&self) {
+        println!("Student: {}, Grade: {}", self.name, self.grade);
+    }
+}
+
+// Calculate factorial using recursion
+fn factorial(n: u32) -> u32 {
+    match n {
+        0 | 1 => 1,
+        _ => n * factorial(n - 1),
+    }
+}
+
+fn main() {
+    println!("=== B3Schools Rust Academy ===");
+    println!("Developed by Ineza Aime Bruno\\n");
+    
+    // Create student
+    let student = Student::new("Bruno", 95);
+    student.display();
+    
+    // Vector demonstration with ownership
+    let mut numbers = vec![5, 2, 8, 1, 9];
+    println!("\\nOriginal: {:?}", numbers);
+    
+    numbers.sort();
+    println!("Sorted: {:?}", numbers);
+    
+    // Pattern matching
+    let grade = 95;
+    let result = match grade {
+        90..=100 => "Excellent",
+        80..=89 => "Good",
+        70..=79 => "Fair",
+        _ => "Needs Improvement",
+    };
+    println!("\\nGrade {}: {}", grade, result);
+    
+    // Calculate factorial
+    let n = 5;
+    println!("\\nFactorial of {}: {}", n, factorial(n));
+    
+    println!("\\n✓ Rust program executed successfully!");
+}`,
+                quiz: [
+                    {
+                        question: "What makes Rust memory-safe without garbage collection?",
+                        options: ["Ownership system", "Manual memory management", "Reference counting", "Virtual machine"],
+                        correct: 0
+                    },
+                    {
+                        question: "What keyword is used to make a variable mutable in Rust?",
+                        options: ["var", "let", "mut", "mutable"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which company developed Rust?",
+                        options: ["Google", "Mozilla", "Microsoft", "Amazon"],
+                        correct: 1
+                    },
+                    {
+                        question: "What is Rust's package manager called?",
+                        options: ["npm", "pip", "cargo", "gem"],
+                        correct: 2
+                    },
+                    {
+                        question: "What does Rust guarantee at compile time?",
+                        options: ["Fast execution", "Memory safety", "Small binary size", "Easy syntax"],
+                        correct: 1
+                    }
+                ]
+            },
+            
+            swift: {
+                name: "Swift",
+                icon: "🍎",
+                type: "console",
+                lesson: `
+                    <h2>Swift: iOS and macOS Development</h2>
+                    
+                    <h3>Introduction to Swift</h3>
+                    <p>Swift is a powerful and intuitive programming language created by Apple for iOS, macOS, watchOS, and tvOS development. It's designed to be safe, fast, and expressive. Swift combines the best features of modern programming languages with wisdom from Apple's engineering culture.</p>
+                    
+                    <p>Swift is open-source and runs on Apple platforms as well as Linux. It's used to build apps for billions of devices worldwide. Major apps like Airbnb, LinkedIn, and Lyft are built with Swift.</p>
+                    
+                    <h3>Swift Fundamentals</h3>
+                    <p>Swift code is concise yet expressive, with modern features like generics, optionals, closures, and type inference. The language emphasizes safety while maintaining performance. Swift eliminates entire classes of unsafe code common in C-based languages.</p>
+                    
+                    <ul>
+                        <li><strong>Optionals:</strong> Safely handle absence of values (nil)</li>
+                        <li><strong>Type Safety:</strong> Catch errors at compile time</li>
+                        <li><strong>Type Inference:</strong> Compiler determines types automatically</li>
+                        <li><strong>Closures:</strong> First-class functions with clean syntax</li>
+                        <li><strong>Protocols:</strong> Define interfaces for types to implement</li>
+                        <li><strong>Extensions:</strong> Add functionality to existing types</li>
+                    </ul>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno's Professional Insight:</strong> Swift's optional system forces you to explicitly handle cases where values might be absent. Use optional binding (if let, guard let) instead of force unwrapping (!). This prevents crashes and makes code more robust. Always prefer 'guard let' for early exits and 'if let' for scoped binding.
+                    </div>
+                    
+                    <h3>SwiftUI Framework</h3>
+                    <p>SwiftUI is Apple's modern declarative framework for building user interfaces. It allows you to describe your UI and its behavior, and SwiftUI handles the rest. It works across all Apple platforms with minimal code changes.</p>
+                    
+                    <p>SwiftUI uses a declarative syntax where you describe what you want rather than how to do it. Views are structs conforming to the View protocol, and the UI automatically updates when data changes thanks to property wrappers like @State and @Binding.</p>
+                    
+                    <h3>Memory Management</h3>
+                    <p>Swift uses Automatic Reference Counting (ARC) to manage memory. ARC automatically frees up memory used by class instances when they're no longer needed. Understanding strong, weak, and unowned references prevents memory leaks in your iOS apps.</p>
+                    
+                    <div class="bruno-insight">
+                        <strong>Bruno Challenge:</strong> Build a simple iOS todo app using SwiftUI with data persistence using UserDefaults. Add features like adding, deleting, and marking tasks complete. This teaches fundamental iOS development patterns!
+                    </div>
+                `,
+                code: `// Swift Programming - B3Schools Academy
+// Developed by Ineza Aime Bruno
+
+import Foundation
+
+// Student struct with properties
+struct Student {
+    let name: String
+    var grade: Int
+    
+    // Computed property
+    var letterGrade: String {
+        switch grade {
+        case 90...100: return "A"
+        case 80..<90: return "B"
+        case 70..<80: return "C"
+        default: return "F"
+        }
+    }
+    
+    // Method
+    func display() {
+        print("Student: \\(name), Grade: \\(grade) (\\(letterGrade))")
+    }
+}
+
+// Function with default parameter
+func greet(name: String = "Student") -> String {
+    return "Welcome to B3Schools, \\(name)!"
+}
+
+// Calculate factorial using recursion
+func factorial(_ n: Int) -> Int {
+    guard n > 1 else { return 1 }
+    return n * factorial(n - 1)
+}
+
+// Main execution
+print("=== B3Schools Swift Academy ===")
+print("Developed by Ineza Aime Bruno\\n")
+
+// Create student instance
+let student = Student(name: "Bruno", grade: 95)
+student.display()
+
+// Array operations
+var numbers = [5, 2, 8, 1, 9]
+print("\\nOriginal: \\(numbers)")
+
+numbers.sort()
+print("Sorted: \\(numbers)")
+
+// Higher-order function
+let doubled = numbers.map { $0 * 2 }
+print("Doubled: \\(doubled)")
+
+// Optional handling
+let optionalName: String? = "Bruno"
+if let name = optionalName {
+    print("\\n\\(greet(name: name))")
+}
+
+// Calculate factorial
+let n = 5
+print("\\nFactorial of \\(n): \\(factorial(n))")
+
+print("\\n✓ Swift program executed successfully!")`,
+                quiz: [
+                    {
+                        question: "What keyword is used to make a constant in Swift?",
+                        options: ["const", "let", "var", "final"],
+                        correct: 1
+                    },
+                    {
+                        question: "What does Swift use for memory management?",
+                        options: ["Garbage Collection", "Manual Management", "ARC", "Reference Counting"],
+                        correct: 2
+                    },
+                    {
+                        question: "Which company created Swift?",
+                        options: ["Google", "Microsoft", "Apple", "IBM"],
+                        correct: 2
+                    },
+                    {
+                        question: "What is Swift's modern UI framework called?",
+                        options: ["UIKit", "SwiftUI", "AppKit", "UIFramework"],
+                        correct: 1
+                    },
+                    {
+                        question: "How do you safely unwrap an optional in Swift?",
+                        options: ["if let", "try", "unwrap", "optional"],
+                        correct: 0
+                    }
+                ]
             }
         };
 
-        // --- CORE FUNCTIONS ---
+        // ═══════════════════════════════════════════════════════════════
+        //                    GLOBAL VARIABLES
+        // ═══════════════════════════════════════════════════════════════
+        let currentModule = 'html';
+        let pyodide = null;
+        let completedQuizzes = new Set();
+        const totalModules = Object.keys(ACADEMY_DB).length;
 
-        function toggleTheme() {
-            const b = document.body;
-            b.setAttribute('data-theme', b.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-        }
+        // ═══════════════════════════════════════════════════════════════
+        //                    INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════
+        window.addEventListener('load', () => {
+            initializeModules();
+            loadModule('html');
+            setupSplitters();
+            loadProgress();
+        });
 
-        function loadModule(id) {
-            localStorage.setItem('bru_save_' + activeMod, document.getElementById('code-editor').value);
-            activeMod = id;
-            const data = db[id] || db.html;
-
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-            document.getElementById('m-' + id).classList.add('active');
-
-            document.getElementById('mod-title').innerText = data.title;
-            document.getElementById('editor-info').innerText = "WORKSPACE: " + id.toUpperCase();
-            document.getElementById('p-learn').innerHTML = data.text;
+        // ═══════════════════════════════════════════════════════════════
+        //                    MODULE MANAGEMENT
+        // ═══════════════════════════════════════════════════════════════
+        function initializeModules() {
+            const nav = document.getElementById('module-nav');
             
-            const saved = localStorage.getItem('bru_save_' + id);
-            document.getElementById('code-editor').value = saved || data.code;
-
-            switchTab('learn');
-            buildQuiz(data.quiz);
-            runSystem();
-        }
-
-        function switchTab(t) {
-            document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
-            document.getElementById('t-' + t).classList.add('active');
-            document.getElementById('p-learn').classList.add('hide');
-            document.getElementById('p-quiz').classList.add('hide');
-            document.getElementById('p-' + t).classList.remove('hide');
-        }
-
-        function formatCode() {
-            const area = document.getElementById('code-editor');
-            let code = area.value;
-            // Simple prettifier: fix indentation after curly braces
-            let formatted = code.split('\n').map(line => line.trim()).join('\n');
-            formatted = formatted.replace(/{/g, ' {\n  ').replace(/}/g, '\n}');
-            area.value = formatted;
-        }
-
-        function saveToFile() {
-            const code = document.getElementById('code-editor').value;
-            const blob = new Blob([code], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `bru_web_${activeMod}.txt`;
-            link.click();
-        }
-
-        function buildQuiz(qs) {
-            const root = document.getElementById('quiz-root');
-            root.innerHTML = '';
-            if (!qs) return;
-            qs.forEach((q, i) => {
-                const div = document.createElement('div');
-                div.className = 'quiz-card';
-                div.innerHTML = `<p><b>Q${i+1}:</b> ${q.q}</p>`;
-                q.o.forEach((opt, oi) => {
-                    const b = document.createElement('button');
-                    b.className = 'quiz-btn';
-                    b.innerText = opt;
-                    b.onclick = () => {
-                        if (oi === q.a) { b.style.background = 'var(--success)'; b.style.color = 'white'; }
-                        else { b.style.background = 'var(--danger)'; b.style.color = 'white'; }
-                    };
-                    div.appendChild(b);
-                });
-                root.appendChild(div);
+            Object.keys(ACADEMY_DB).forEach(key => {
+                const module = ACADEMY_DB[key];
+                const btn = document.createElement('button');
+                btn.className = 'module-btn';
+                btn.id = `mod-${key}`;
+                btn.onclick = () => loadModule(key);
+                btn.innerHTML = `<span class="module-icon">${module.icon}</span> ${module.name}`;
+                nav.appendChild(btn);
             });
         }
 
-        async function runSystem() {
-            const code = document.getElementById('code-editor').value;
-            const type = (db[activeMod] || db.html).type;
-            const preview = document.getElementById('preview');
-            const consoleBox = document.getElementById('console');
+        function loadModule(moduleId) {
+            currentModule = moduleId;
+            const module = ACADEMY_DB[moduleId];
+            
+            // Update active state
+            document.querySelectorAll('.module-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`mod-${moduleId}`).classList.add('active');
+            
+            // Load content
+            document.getElementById('lesson-content').innerHTML = module.lesson;
+            document.getElementById('code-editor').value = module.code;
+            document.getElementById('editor-info').textContent = `📝 WORKSPACE: ${module.name.toUpperCase()}`;
+            
+            // Build quiz
+            buildQuiz(module.quiz);
+            
+            // Switch to lesson tab
+            switchContentTab('lesson');
+            
+            // Execute code
+            executeCode();
+            
+            // Save progress
+            localStorage.setItem('b3schools_last_module', moduleId);
+        }
 
-            if (type === 'html') {
-                preview.style.display = 'block'; consoleBox.style.display = 'none';
-                const doc = preview.contentDocument;
-                doc.open(); doc.write(code); doc.close();
-            } else if (type === 'py') {
-                preview.style.display = 'none'; consoleBox.style.display = 'block';
-                consoleBox.innerText = "Initializing Python 3.11 Runtime...";
-                if (!pyodide) pyodide = await loadPyodide();
-                try {
-                    let out = await pyodide.runPython(`import sys, io\nsys.stdout = io.StringIO()\n${code}\nsys.stdout.getvalue()`);
-                    consoleBox.innerText = out || "Success (No Output)";
-                } catch(e) { consoleBox.innerText = e; }
+        // ═══════════════════════════════════════════════════════════════
+        //                    CONTENT TABS
+        // ═══════════════════════════════════════════════════════════════
+        function switchContentTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-content`).classList.add('active');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    QUIZ SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        function buildQuiz(questions) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-question';
+                questionDiv.innerHTML = `<h4>Question ${index + 1}: ${q.question}</h4>`;
+                
+                q.options.forEach((option, optIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.textContent = option;
+                    btn.onclick = () => checkAnswer(btn, optIndex, q.correct, index);
+                    questionDiv.appendChild(btn);
+                });
+                
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswer(button, selected, correct, questionIndex) {
+            const allOptions = button.parentElement.querySelectorAll('.quiz-option');
+            allOptions.forEach(opt => opt.disabled = true);
+            
+            if (selected === correct) {
+                button.classList.add('correct');
+                complet        function checkAnswer(button, selected, correct, questionIndex) {
+            const allOptions = button.parentElement.querySelectorAll('.quiz-option');
+            allOptions.forEach(opt => opt.disabled = true);
+            
+            if (selected === correct) {
+                button.classList.add('correct');
+                completedQuizzes.add(currentModule);
+                updateProgress();
+                
+                // Check if all quizzes completed
+                if (completedQuizzes.size === totalModules) {
+                    setTimeout(() => {
+                        showCertificate();
+                    }, 1000);
+                }
             } else {
-                preview.style.display = 'none'; consoleBox.style.display = 'block';
-                consoleBox.innerText = "Processing Logic...\n";
-                let logs = [];
-                const mock = { log: (v) => logs.push(v) };
-                try {
-                    new Function('console', code)(mock);
-                    consoleBox.innerText += logs.length ? logs.join('\n') : "Execution Finished.";
-                } catch(e) { consoleBox.innerText += "Logic Verified. Compilation Success."; }
+                button.classList.add('incorrect');
+                // Highlight correct answer
+                allOptions[correct].classList.add('correct');
             }
         }
 
-        window.onload = () => loadModule('html');
+        // ═══════════════════════════════════════════════════════════════
+        //                    CODE EXECUTION ENGINE
+        // ═══════════════════════════════════════════════════════════════
+        async function executeCode() {
+            const editor = document.getElementById('code-editor');
+            const code = editor.value;
+            const module = ACADEMY_DB[currentModule];
+            
+            document.getElementById('console-output').style.display = 'none';
+            document.getElementById('preview-frame').style.display = 'block';
+            
+            if (module.type === 'html') {
+                const iframe = document.getElementById('preview-frame');
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                iframeDoc.open();
+                iframeDoc.write(code);
+                iframeDoc.close();
+            } 
+            else if (module.type === 'python') {
+                await executePython(code);
+            }
+            else if (module.type === 'console') {
+                await executeConsoleCode(code);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem(`b3schools_code_${currentModule}`, code);
+        }
+
+        async function executePython(code) {
+            document.getElementById('preview-frame').style.display = 'none';
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.style.display = 'block';
+            consoleOutput.innerHTML = '<div style="color: var(--accent-green)">🚀 Initializing Python Environment...</div>';
+            
+            try {
+                if (!pyodide) {
+                    consoleOutput.innerHTML = '<div style="color: var(--accent-blue)">📦 Loading Pyodide WASM...</div>';
+                    pyodide = await loadPyodide({
+                        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/"
+                    });
+                    await pyodide.loadPackage("micropip");
+                    consoleOutput.innerHTML = '<div style="color: var(--accent-green)">✅ Python Environment Ready!</div>';
+                }
+                
+                consoleOutput.innerHTML += '<div style="color: var(--text-primary)">📝 Executing Python code...</div>';
+                
+                // Capture print statements
+                const output = [];
+                pyodide.runPython(`
+                import sys
+                import io
+                sys.stdout = io.StringIO()
+                `);
+                
+                try {
+                    await pyodide.runPythonAsync(code);
+                    const result = pyodide.runPython("sys.stdout.getvalue()");
+                    output.push(result);
+                } catch (error) {
+                    output.push(`❌ Error: ${error.message}`);
+                }
+                
+                // Restore stdout
+                pyodide.runPython(`
+                import sys
+                sys.stdout = sys.__stdout__
+                `);
+                
+                consoleOutput.innerHTML = output.map(line => `<div style="margin: 5px 0; font-family: monospace;">${line}</div>`).join('');
+                
+            } catch (error) {
+                consoleOutput.innerHTML += `<div style="color: var(--accent-red)">❌ Failed to initialize Python: ${error.message}</div>`;
+            }
+        }
+
+        async function executeConsoleCode(code) {
+            document.getElementById('preview-frame').style.display = 'none';
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.style.display = 'block';
+            consoleOutput.innerHTML = '<div style="color: var(--accent-green)">🚀 Executing Code...</div>';
+            
+            try {
+                // This would be expanded for each language's console execution
+                consoleOutput.innerHTML += `<pre>${code}</pre>`;
+                consoleOutput.innerHTML += '<div style="color: var(--accent-green)">✅ Code loaded successfully!</div>';
+            } catch (error) {
+                consoleOutput.innerHTML += `<div style="color: var(--accent-red)">❌ Execution error: ${error.message}</div>`;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    AUTO-FORMAT ENGINE
+        // ═══════════════════════════════════════════════════════════════
+        function formatCode() {
+            const editor = document.getElementById('code-editor');
+            const code = editor.value;
+            const module = ACADEMY_DB[currentModule];
+            
+            let formatted = code;
+            
+            switch(module.type) {
+                case 'html':
+                    formatted = formatHTML(code);
+                    break;
+                case 'python':
+                    formatted = formatPython(code);
+                    break;
+                case 'console':
+                    formatted = formatGeneric(code);
+                    break;
+            }
+            
+            editor.value = formatted;
+            
+            // Show success message
+            const info = document.getElementById('editor-info');
+            const original = info.textContent;
+            info.textContent = '✨ Code Formatted Successfully!';
+            info.style.color = 'var(--accent-green)';
+            
+            setTimeout(() => {
+                info.textContent = original;
+                info.style.color = '';
+            }, 2000);
+        }
+
+        function formatHTML(code) {
+            let indentLevel = 0;
+            let inTag = false;
+            let result = '';
+            
+            for (let i = 0; i < code.length; i++) {
+                const char = code[i];
+                const nextChar = code[i + 1] || '';
+                
+                if (char === '<' && nextChar !== '/') {
+                    result += '\n' + '  '.repeat(indentLevel) + char;
+                    inTag = true;
+                    if (nextChar !== '!' && nextChar !== '?') {
+                        indentLevel++;
+                    }
+                } else if (char === '<' && nextChar === '/') {
+                    indentLevel--;
+                    result += '\n' + '  '.repeat(indentLevel) + char;
+                    inTag = true;
+                } else if (char === '>') {
+                    result += char;
+                    inTag = false;
+                } else if (char === '\n') {
+                    result += char + '  '.repeat(indentLevel);
+                } else {
+                    result += char;
+                }
+            }
+            
+            return result.trim();
+        }
+
+        function formatPython(code) {
+            // Simple Python formatter
+            const lines = code.split('\n');
+            let indentLevel = 0;
+            let result = [];
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                    result.push('');
+                    return;
+                }
+                
+                // Decrease indent for dedent lines
+                if (trimmed.startsWith('elif ') || trimmed.startsWith('else:') || 
+                    trimmed.startsWith('except ') || trimmed.startsWith('finally:')) {
+                    indentLevel--;
+                }
+                
+                // Apply current indent
+                result.push('    '.repeat(indentLevel) + trimmed);
+                
+                // Increase indent for block starters
+                if (trimmed.endsWith(':') && !trimmed.startsWith('#') && 
+                    !trimmed.includes('elif ') && !trimmed.includes('else:')) {
+                    indentLevel++;
+                }
+            });
+            
+            return result.join('\n');
+        }
+
+        function formatGeneric(code) {
+            return code;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    SPLITTER SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        function setupSplitters() {
+            const splitter1 = document.getElementById('splitter-1');
+            const splitter2 = document.getElementById('splitter-2');
+            const teachingPane = document.querySelector('.teaching-pane');
+            const executionPane = document.querySelector('.execution-pane');
+            const aiPane = document.querySelector('.ai-pane');
+            
+            let isDragging1 = false;
+            let isDragging2 = false;
+            
+            // Splitter 1 (between teaching and execution)
+            splitter1.addEventListener('mousedown', (e) => {
+                isDragging1 = true;
+                splitter1.classList.add('active');
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault();
+            });
+            
+            // Splitter 2 (between execution and AI)
+            splitter2.addEventListener('mousedown', (e) => {
+                isDragging2 = true;
+                splitter2.classList.add('active');
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging1 && !isDragging2) return;
+                
+                const containerWidth = document.querySelector('.workspace').clientWidth;
+                const mouseX = e.clientX;
+                
+                if (isDragging1) {
+                    const newWidth = Math.max(250, Math.min(600, mouseX));
+                    teachingPane.style.width = `${newWidth}px`;
+                    localStorage.setItem('b3schools_splitter1', newWidth);
+                }
+                
+                if (isDragging2) {
+                    const pane2Right = executionPane.getBoundingClientRect().right;
+                    const newWidth = Math.max(250, Math.min(600, containerWidth - mouseX));
+                    aiPane.style.width = `${newWidth}px`;
+                    localStorage.setItem('b3schools_splitter2', newWidth);
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging1 || isDragging2) {
+                    isDragging1 = false;
+                    isDragging2 = false;
+                    splitter1.classList.remove('active');
+                    splitter2.classList.remove('active');
+                    document.body.style.cursor = '';
+                }
+            });
+            
+            // Load saved positions
+            const saved1 = localStorage.getItem('b3schools_splitter1');
+            const saved2 = localStorage.getItem('b3schools_splitter2');
+            
+            if (saved1) teachingPane.style.width = `${saved1}px`;
+            if (saved2) aiPane.style.width = `${saved2}px`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    PROGRESS TRACKING
+        // ═══════════════════════════════════════════════════════════════
+        function updateProgress() {
+            const progress = (completedQuizzes.size / totalModules) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${progress}%`;
+            
+            localStorage.setItem('b3schools_completed', JSON.stringify([...completedQuizzes]));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('b3schools_completed');
+            if (saved) {
+                completedQuizzes = new Set(JSON.parse(saved));
+                updateProgress();
+            }
+            
+            // Load last module
+            const lastModule = localStorage.getItem('b3schools_last_module');
+            if (lastModule && ACADEMY_DB[lastModule]) {
+                loadModule(lastModule);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    FILE SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        function saveWorkspace() {
+            const workspace = {
+                timestamp: Date.now(),
+                currentModule: currentModule,
+                code: document.getElementById('code-editor').value,
+                completedQuizzes: [...completedQuizzes],
+                theme: document.body.getAttribute('data-theme')
+            };
+            
+            const blob = new Blob([JSON.stringify(workspace, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `b3schools-workspace-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Show success
+            const info = document.getElementById('editor-info');
+            const original = info.textContent;
+            info.textContent = '💾 Workspace Saved!';
+            info.style.color = 'var(--accent-green)';
+            
+            setTimeout(() => {
+                info.textContent = original;
+                info.style.color = '';
+            }, 2000);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    THEME TOGGLE
+        // ═══════════════════════════════════════════════════════════════
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('b3schools_theme', newTheme);
+            
+            // Update button text
+            const themeBtn = document.querySelector('.btn-theme');
+            themeBtn.textContent = newTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('b3schools_theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        document.querySelector('.btn-theme').textContent = savedTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    CERTIFICATE SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        function showCertificate() {
+            const modal = document.getElementById('certificate-modal');
+            modal.classList.add('show');
+        }
+
+        function closeCertificate() {
+            const modal = document.getElementById('certificate-modal');
+            modal.classList.remove('show');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    SMART EDITOR FEATURES
+        // ═══════════════════════════════════════════════════════════════
+        document.getElementById('code-editor').addEventListener('keydown', function(e) {
+            // Tab key handling
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                
+                // Insert 2 spaces
+                this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 2;
+            }
+            
+            // Enter key - auto-indent
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const value = this.value;
+                
+                // Find current line
+                let lineStart = start;
+                while (lineStart > 0 && value[lineStart - 1] !== '\n') {
+                    lineStart--;
+                }
+                
+                const currentLine = value.substring(lineStart, start);
+                const match = currentLine.match(/^(\s*)/);
+                const indent = match ? match[0] : '';
+                
+                // Insert new line with same indent
+                this.value = value.substring(0, start) + '\n' + indent + value.substring(start);
+                this.selectionStart = this.selectionEnd = start + 1 + indent.length;
+            }
+            
+            // Auto-closing brackets
+            if (['(', '[', '{', '"', "'", '<'].includes(e.key)) {
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                const value = this.value;
+                
+                let closeChar = '';
+                switch(e.key) {
+                    case '(': closeChar = ')'; break;
+                    case '[': closeChar = ']'; break;
+                    case '{': closeChar = '}'; break;
+                    case '"': closeChar = '"'; break;
+                    case "'": closeChar = "'"; break;
+                    case '<': closeChar = '>'; break;
+                }
+                
+                this.value = value.substring(0, start) + e.key + closeChar + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 1;
+            }
+            
+            // Auto-closing HTML tags
+            if (e.key === '>') {
+                const start = this.selectionStart;
+                const value = this.value;
+                
+                // Check if we're closing a tag
+                let tagStart = start - 1;
+                while (tagStart > 0 && value[tagStart] !== '<') {
+                    tagStart--;
+                }
+                
+                if (value[tagStart] === '<' && tagStart < start - 1) {
+                    const tagContent = value.substring(tagStart + 1, start);
+                    if (!tagContent.startsWith('/') && !tagContent.endsWith('/')) {
+                        const tagNameMatch = tagContent.match(/^(\w+)/);
+                        if (tagNameMatch) {
+                            const tagName = tagNameMatch[1];
+                            this.value = value.substring(0, start) + '></' + tagName + '>' + value.substring(start);
+                            this.selectionStart = this.selectionEnd = start + 1;
+                        }
+                    }
+                }
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    KEYBOARD SHORTCUTS
+        // ═══════════════════════════════════════════════════════════════
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+S to save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveWorkspace();
+            }
+            
+            // Ctrl+Enter to run code
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                executeCode();
+            }
+            
+            // Ctrl+Shift+F to format
+            if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+                e.preventDefault();
+                formatCode();
+            }
+            
+            // Ctrl+D to toggle theme
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    AUTO-SAVE
+        // ═══════════════════════════════════════════════════════════════
+        let saveTimeout;
+        document.getElementById('code-editor').addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                localStorage.setItem(`b3schools_code_${currentModule}`, this.value);
+                const info = document.getElementById('editor-info');
+                info.textContent = '💾 Auto-saved';
+                setTimeout(() => {
+                    info.textContent = `📝 WORKSPACE: ${ACADEMY_DB[currentModule].name.toUpperCase()}`;
+                }, 1000);
+            }, 1000);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    INITIAL CONTENT LOAD
+        // ═══════════════════════════════════════════════════════════════
+        // Load saved code if exists
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const savedCode = localStorage.getItem(`b3schools_code_html`);
+                if (savedCode) {
+                    document.getElementById('code-editor').value = savedCode;
+                }
+                
+                // Initialize modules with more content
+                enhanceContent();
+                executeCode();
+                
+                // Show welcome message
+                const consoleOutput = document.getElementById('console-output');
+                consoleOutput.innerHTML = `
+                    <div style="color: var(--accent-green); font-weight: bold;">
+                    ═══════════════════════════════════════════════════════════
+                    🚀 B3Schools Academy Initialized Successfully!
+                    ═══════════════════════════════════════════════════════════
+                    </div>
+                    <div style="margin-top: 10px;">
+                    📚 <strong>Welcome to B3Schools</strong> - Complete Web Development Academy
+                    </div>
+                    <div>
+                    👨‍💻 Developed by: <strong>Ineza Aime Bruno</strong>
+                    </div>
+                    <div>
+                    🔗 Visit: <a href="https://bru-ai.vercel.app" target="_blank" style="color: var(--accent-blue);">bru-ai.vercel.app</a>
+                    </div>
+                    <div style="margin-top: 10px;">
+                    🎯 <strong>Keyboard Shortcuts:</strong>
+                    </div>
+                    <div>• Ctrl+Enter: Run Code</div>
+                    <div>• Ctrl+S: Save Workspace</div>
+                    <div>• Ctrl+Shift+F: Format Code</div>
+                    <div>• Ctrl+D: Toggle Theme</div>
+                    <div style="margin-top: 10px; color: var(--accent-green);">
+                    ✅ Ready to learn! Select a module from the left panel.
+                    </div>
+                `;
+            }, 500);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    ADDITIONAL ENHANCEMENTS
+        // ═══════════════════════════════════════════════════════════════
+        function enhanceContent() {
+            // Add interactive examples
+            const lessonContent = document.getElementById('lesson-content');
+            const module = ACADEMY_DB[currentModule];
+            
+            // Add interactive demos based on module
+            let demoHTML = '';
+            
+            switch(currentModule) {
+                case 'html':
+                    demoHTML = `
+                        <div class="bruno-insight" style="margin-top: 30px;">
+                            <strong>Interactive Example:</strong>
+                            <div style="margin-top: 10px; padding: 15px; background: var(--bg-secondary); border-radius: 5px;">
+                                <h4>Live HTML5 Semantic Layout:</h4>
+                                <div style="border: 1px solid var(--border-color); margin: 10px 0; padding: 10px;">
+                                    &lt;header&gt;Page Header&lt;/header&gt;<br>
+                                    &lt;nav&gt;Navigation&lt;/nav&gt;<br>
+                                    &lt;main&gt;<br>
+                                    &nbsp;&nbsp;&lt;article&gt;Main Content&lt;/article&gt;<br>
+                                    &nbsp;&nbsp;&lt;aside&gt;Sidebar&lt;/aside&gt;<br>
+                                    &lt;/main&gt;<br>
+                                    &lt;footer&gt;Page Footer&lt;/footer&gt;
+                                </div>
+                                <button onclick="loadExample('semantic')" style="background: var(--accent-green); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Load Example</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'css':
+                    demoHTML = `
+                        <div class="bruno-insight" style="margin-top: 30px;">
+                            <strong>CSS Grid Demo:</strong>
+                            <div style="margin-top: 10px; padding: 15px; background: var(--bg-secondary); border-radius: 5px;">
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0;">
+                                    <div style="background: var(--accent-green); padding: 20px; border-radius: 5px; text-align: center;">1</div>
+                                    <div style="background: var(--accent-blue); padding: 20px; border-radius: 5px; text-align: center;">2</div>
+                                    <div style="background: var(--accent-green); padding: 20px; border-radius: 5px; text-align: center;">3</div>
+                                    <div style="background: var(--accent-blue); padding: 20px; border-radius: 5px; text-align: center;">4</div>
+                                    <div style="background: var(--accent-green); padding: 20px; border-radius: 5px; text-align: center;">5</div>
+                                    <div style="background: var(--accent-blue); padding: 20px; border-radius: 5px; text-align: center;">6</div>
+                                </div>
+                                <button onclick="loadExample('cssgrid')" style="background: var(--accent-green); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Load Grid Example</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'javascript':
+                    demoHTML = `
+                        <div class="bruno-insight" style="margin-top: 30px;">
+                            <strong>JavaScript Interactive Demo:</strong>
+                            <div style="margin-top: 10px; padding: 15px; background: var(--bg-secondary); border-radius: 5px;">
+                                <div id="js-demo" style="margin: 10px 0; padding: 20px; background: var(--bg-primary); border-radius: 5px; text-align: center;">
+                                    <p>Counter: <span id="demo-counter">0</span></p>
+                                    <button onclick="demoIncrement()" style="background: var(--accent-green); color: white; border: none; padding: 8px 16px; margin: 5px; border-radius: 4px; cursor: pointer;">Increment</button>
+                                    <button onclick="demoDecrement()" style="background: var(--accent-red); color: white; border: none; padding: 8px 16px; margin: 5px; border-radius: 4px; cursor: pointer;">Decrement</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            lessonContent.innerHTML += demoHTML;
+        }
+
+        function loadExample(type) {
+            const editor = document.getElementById('code-editor');
+            let exampleCode = '';
+            
+            switch(type) {
+                case 'semantic':
+                    exampleCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Semantic Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        header, nav, main, article, aside, footer {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        nav {
+            background: #333;
+            color: white;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        main {
+            display: flex;
+            gap: 20px;
+        }
+        article {
+            flex: 3;
+            background: #f4f4f4;
+        }
+        aside {
+            flex: 1;
+            background: #e0e0e0;
+        }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+        <p>Built with HTML5 Semantic Elements</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <article>
+            <h2>Main Content Area</h2>
+            <p>This is the main content of the page. It's wrapped in an &lt;article&gt; tag.</p>
+            <p>HTML5 semantic elements help search engines understand the structure of your page.</p>
+        </article>
+        
+        <aside>
+            <h3>Sidebar</h3>
+            <p>This is the sidebar content. It's wrapped in an &lt;aside&gt; tag.</p>
+        </aside>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>`;
+                    break;
+                    
+                case 'cssgrid':
+                    exampleCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #04AA6D 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card:nth-child(2) .card-header {
+            background: linear-gradient(135deg, #ff4757 0%, #ffa502 100%);
+        }
+        
+        .card:nth-child(3) .card-header {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+        }
+        
+        .card:nth-child(4) .card-header {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+        }
+        
+        .card:nth-child(5) .card-header {
+            background: linear-gradient(135deg, #16a085 0%, #27ae60 100%);
+        }
+        
+        .card:nth-child(6) .card-header {
+            background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSS Grid Gallery</h1>
+        <div class="grid-layout">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 1</h2>
+                </div>
+                <div class="card-body">
+                    <p>This is a grid card with hover effects. CSS Grid makes responsive layouts easy!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 2</h2>
+                </div>
+                <div class="card-body">
+                    <p>Cards automatically adjust based on screen size. No media queries needed for basic grid!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 3</h2>
+                </div>
+                <div class="card-body">
+                    <p>The grid-template-columns property controls the number and size of columns.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 4</h2>
+                </div>
+                <div class="card-body">
+                    <p>Gap property adds spacing between grid items. No more margin headaches!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 5</h2>
+                </div>
+                <div class="card-body">
+                    <p>Auto-fit and minmax() create responsive grids that work on all devices.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Card 6</h2>
+                </div>
+                <div class="card-body">
+                    <p>CSS Grid is supported in all modern browsers. Time to say goodbye to float-based layouts!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+                    break;
+            }
+            
+            editor.value = exampleCode;
+            executeCode();
+        }
+
+        // Demo JavaScript functions
+        window.demoIncrement = function() {
+            const counter = document.getElementById('demo-counter');
+            counter.textContent = parseInt(counter.textContent) + 1;
+        };
+
+        window.demoDecrement = function() {
+            const counter = document.getElementById('demo-counter');
+            counter.textContent = parseInt(counter.textContent) - 1;
+        };
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    MOBILE RESPONSIVENESS
+        // ═══════════════════════════════════════════════════════════════
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.teaching-pane');
+            sidebar.classList.toggle('show');
+        }
+
+        // Add mobile menu button
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('.top-header');
+            const menuBtn = document.createElement('button');
+            menuBtn.innerHTML = '☰';
+            menuBtn.style.background = 'transparent';
+            menuBtn.style.border = 'none';
+            menuBtn.style.color = 'var(--text-sidebar)';
+            menuBtn.style.fontSize = '24px';
+            menuBtn.style.cursor = 'pointer';
+            menuBtn.style.display = 'none';
+            menuBtn.onclick = toggleSidebar;
+            menuBtn.id = 'mobile-menu-btn';
+            
+            header.insertBefore(menuBtn, header.firstChild);
+            
+            // Show/hide based on screen size
+            function checkMobile() {
+                if (window.innerWidth <= 768) {
+                    menuBtn.style.display = 'block';
+                } else {
+                    menuBtn.style.display = 'none';
+                    document.querySelector('.teaching-pane').classList.remove('show');
+                }
+            }
+            
+            checkMobile();
+            window.addEventListener('resize', checkMobile);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    EXPORT FUNCTIONALITY
+        // ═══════════════════════════════════════════════════════════════
+        function exportCertificate() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create certificate image
+            canvas.width = 1200;
+            canvas.height = 800;
+            
+            // Draw background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw border
+            ctx.strokeStyle = '#04AA6D';
+            ctx.lineWidth = 20;
+            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+            
+            // Add title
+            ctx.fillStyle = '#04AA6D';
+            ctx.font = 'bold 60px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Certificate of Completion', canvas.width / 2, 150);
+            
+            // Add body text
+            ctx.fillStyle = '#333333';
+            ctx.font = '30px Arial';
+            ctx.fillText('This certifies that', canvas.width / 2, 250);
+            
+            ctx.font = 'bold 40px Arial';
+            ctx.fillStyle = '#0984e3';
+            ctx.fillText('Distinguished Student', canvas.width / 2, 320);
+            
+            ctx.font = '30px Arial';
+            ctx.fillStyle = '#333333';
+            ctx.fillText('has successfully completed the B3Schools', canvas.width / 2, 400);
+            ctx.fillText('Complete Web Development Academy', canvas.width / 2, 450);
+            
+            // Add signature
+            ctx.font = 'italic 25px Arial';
+            ctx.fillStyle = '#04AA6D';
+            ctx.fillText('Signed by:', canvas.width / 2, 550);
+            ctx.font = 'bold 30px Arial';
+            ctx.fillText('Ineza Aime Bruno', canvas.width / 2, 600);
+            ctx.font = 'italic 25px Arial';
+            ctx.fillText('Founder & Lead Instructor, B3Schools', canvas.width / 2, 650);
+            
+            // Convert to image and download
+            const link = document.createElement('a');
+            link.download = 'b3schools-certificate.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Add export button to certificate modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const certificate = document.querySelector('.certificate');
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'btn btn-secondary';
+            exportBtn.style.marginLeft = '10px';
+            exportBtn.textContent = '📥 Export Certificate';
+            exportBtn.onclick = exportCertificate;
+            
+            const closeBtn = certificate.querySelector('.btn');
+            closeBtn.parentNode.insertBefore(exportBtn, closeBtn.nextSibling);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    ADDITIONAL MODULES EXPANSION
+        // ═══════════════════════════════════════════════════════════════
+        // Let's add more detailed content to existing modules
+        function expandModules() {
+            // Add more detailed content to each module
+            Object.keys(ACADEMY_DB).forEach(moduleKey => {
+                const module = ACADEMY_DB[moduleKey];
+                
+                // Add more paragraphs to lessons
+                switch(moduleKey) {
+                    case 'html':
+                        module.lesson += `
+                            <h3>HTML5 APIs and Features</h3>
+                            <p>HTML5 introduced powerful APIs that extend the capabilities of web applications:</p>
+                            <ul>
+                                <li><strong>Canvas API:</strong> For drawing graphics and animations</li>
+                                <li><strong>Geolocation API:</strong> Access user's location</li>
+                                <li><strong>Web Storage:</strong> localStorage and sessionStorage for client-side data</li>
+                                <li><strong>Web Workers:</strong> Run scripts in background threads</li>
+                                <li><strong>WebSockets:</strong> Real-time communication</li>
+                                <li><strong>Drag and Drop API:</strong> Native drag and drop functionality</li>
+                                <li><strong>History API:</strong> Manipulate browser history</li>
+                            </ul>
+                            
+                            <h3>Accessibility Best Practices</h3>
+                            <p>Creating accessible HTML ensures everyone can use your website:</p>
+                            <ul>
+                                <li>Use semantic elements for screen readers</li>
+                                <li>Add alt text to all images</li>
+                                <li>Ensure sufficient color contrast</li>
+                                <li>Make all functionality available via keyboard</li>
+                                <li>Use ARIA attributes when necessary</li>
+                                <li>Test with screen readers and keyboard navigation</li>
+                            </ul>
+                        `;
+                        break;
+                        
+                    case 'css':
+                        module.lesson += `
+                            <h3>CSS Advanced Techniques</h3>
+                            <p>Modern CSS offers powerful features for creating sophisticated designs:</p>
+                            <ul>
+                                <li><strong>CSS Custom Properties (Variables):</strong> --primary-color: #04AA6D;</li>
+                                <li><strong>CSS Functions:</strong> calc(), var(), rgb(), hsl(), etc.</li>
+                                <li><strong>Advanced Selectors:</strong> :not(), :nth-child(), :has()</li>
+                                <li><strong>Pseudo-elements:</strong> ::before, ::after, ::first-letter</li>
+                                <li><strong>Transforms and Transitions:</strong> create smooth animations</li>
+                                <li><strong>Filters:</strong> blur(), grayscale(), brightness()</li>
+                                <li><strong>Blend Modes:</strong> mix-blend-mode, background-blend-mode</li>
+                            </ul>
+                            
+                            <h3>Performance Optimization</h3>
+                            <p>Optimize CSS for better performance:</p>
+                            <ul>
+                                <li>Minify CSS for production</li>
+                                <li>Use CSS sprites for icons</li>
+                                <li>Implement critical CSS for above-the-fold content</li>
+                                <li>Reduce specificity for faster parsing</li>
+                                <li>Use will-change property for animations</li>
+                                <li>Implement CSS containment for complex layouts</li>
+                            </ul>
+                        `;
+                        break;
+                        
+                    case 'javascript':
+                        module.lesson += `
+                            <h3>Modern JavaScript Features</h3>
+                            <p>ES6+ brought revolutionary features to JavaScript:</p>
+                            <ul>
+                                <li><strong>Template Literals:</strong> \`Hello \${name}\`</li>
+                                <li><strong>Destructuring:</strong> const {name, age} = person;</li>
+                                <li><strong>Spread/Rest Operators:</strong> ...array, ...args</li>
+                                <li><strong>Modules:</strong> import/export for code organization</li>
+                                <li><strong>Optional Chaining:</strong> user?.address?.street</li>
+                                <li><strong>Nullish Coalescing:</strong> value ?? defaultValue</li>
+                                <li><strong>Promise.allSettled():</strong> Handle multiple promises</li>
+                                <li><strong>BigInt:</strong> Arbitrary precision integers</li>
+                            </ul>
+                            
+                            <h3>JavaScript Design Patterns</h3>
+                            <p>Common patterns for scalable JavaScript applications:</p>
+                            <ul>
+                                <li><strong>Module Pattern:</strong> Encapsulate code in modules</li>
+                                <li><strong>Observer Pattern:</strong> Event-driven programming</li>
+                                <li><strong>Singleton Pattern:</strong> Single instance of a class</li>
+                                <li><strong>Factory Pattern:</strong> Object creation abstraction</li>
+                                <li><strong>MVC Pattern:</strong> Model-View-Controller architecture</li>
+                                <li><strong>Decorator Pattern:</strong> Add functionality dynamically</li>
+                            </ul>
+                        `;
+                        break;
+                }
+            });
+        }
+
+        // Initialize expanded content
+        expandModules();
+
+        // ═══════════════════════════════════════════════════════════════
+        //                    FINAL INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════
+        console.log(`
+        ═══════════════════════════════════════════════════════════
+        🎓 B3Schools Academy - Complete Web Development Platform
+        ═══════════════════════════════════════════════════════════
+        📚 Modules: ${Object.keys(ACADEMY_DB).length}
+        💡 Features: Code Editor, Live Preview, Quizzes, AI Assistant
+        👨‍💻 Developer: Ineza Aime Bruno
+        🔗 Website: https://bru-ai.vercel.app
+        📏 Lines of Code: ${document.documentElement.outerHTML.split('\\n').length}
+        ✅ Status: Ready for Learning!
+        ═══════════════════════════════════════════════════════════
+        `);
     </script>
 </body>
 </html>
